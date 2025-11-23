@@ -1,0 +1,574 @@
+@import "../../variables";
+
+// Hero Section
+.bakery-hero {
+  background: linear-gradient(
+    135deg,
+    rgba(230, 126, 34, 0.15),
+    rgba(212, 175, 55, 0.1)
+  );
+  border-bottom: 2px solid $accent-gold;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  .hero-icon {
+    font-size: 3rem;
+    margin-right: 1rem;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+    color: $light-gold;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+}
+
+// About Section
+.about-stonecrust {
+  padding: 5rem 2rem;
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+  }
+
+  .about-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .image-placeholder {
+      width: 300px;
+      height: 300px;
+      border: 3px dashed $accent-gold;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(
+        135deg,
+        rgba(230, 126, 34, 0.1),
+        rgba(212, 175, 55, 0.05)
+      );
+
+      .large-icon {
+        font-size: 5rem;
+      }
+    }
+  }
+
+  .about-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: $text-light;
+  }
+}
+
+// Products Section
+.products-section {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 31, 58, 0.5),
+    rgba(10, 14, 39, 0.5)
+  );
+  padding: 5rem 2rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.product-card {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.8),
+    rgba(10, 14, 39, 0.8)
+  );
+  border: 2px solid rgba($accent-gold, 0.3);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease backwards;
+  animation-delay: var(--product-delay, 0ms);
+
+  &:hover {
+    border-color: $accent-gold;
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(230, 126, 34, 0.2);
+  }
+
+  &.specialty {
+    border-color: $light-gold;
+    background: linear-gradient(
+      135deg,
+      rgba(244, 208, 63, 0.1),
+      rgba(230, 126, 34, 0.05)
+    );
+
+    &:hover {
+      box-shadow: 0 15px 40px rgba(244, 208, 63, 0.3);
+    }
+  }
+
+  .product-badge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: linear-gradient(135deg, $accent-gold, $light-gold);
+    color: $primary-black;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .product-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .product-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: $text-light;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-category {
+    color: $light-gold;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .product-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: $text-light;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-gold {
+    background-color: $accent-gold;
+    color: $primary-black;
+    border: none;
+
+    &:hover {
+      background-color: $light-gold;
+    }
+  }
+}
+
+// Product Detail Modal
+.product-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 31, 58, 0.95),
+      rgba(10, 14, 39, 0.95)
+    );
+    border: 2px solid $accent-gold;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: $accent-gold;
+      font-size: 1.5rem;
+      cursor: pointer;
+
+      &:hover {
+        color: $light-gold;
+      }
+    }
+  }
+
+  .modal-body {
+    .modal-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: $text-light;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-description {
+      color: $text-light;
+      line-height: 1.6;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      .btn {
+        flex: 1;
+      }
+
+      .btn-outline-gold {
+        background: transparent;
+        border: 2px solid $accent-gold;
+        color: $accent-gold;
+
+        &:hover {
+          background-color: $accent-gold;
+          color: $primary-black;
+        }
+      }
+    }
+  }
+}
+
+// Achievements Section
+.achievements-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 14, 39, 0.5),
+    rgba(26, 31, 58, 0.5)
+  );
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.achievement-card {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.8),
+    rgba(10, 14, 39, 0.8)
+  );
+  border: 1px solid rgba($accent-gold, 0.3);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease backwards;
+  animation-delay: var(--achievement-delay, 0ms);
+
+  &:hover {
+    border-color: $accent-gold;
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+  }
+
+  .achievement-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    color: $text-light;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+// Ingredients Section
+.ingredients-section {
+  background: linear-gradient(
+    135deg,
+    rgba(230, 126, 34, 0.1),
+    rgba(212, 175, 55, 0.05)
+  );
+  padding: 5rem 2rem;
+  border-top: 2px solid $accent-gold;
+  border-bottom: 2px solid $accent-gold;
+
+  h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+  }
+
+  .ingredients-list {
+    list-style: none;
+
+    li {
+      padding: 0.8rem 0;
+      font-size: 1rem;
+      color: $text-light;
+
+      .checkmark {
+        color: $accent-gold;
+        font-weight: bold;
+        margin-right: 0.8rem;
+      }
+    }
+  }
+
+  .ingredients-visual {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ingredient-circle {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 3px solid $accent-gold;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.1),
+        rgba(230, 126, 34, 0.05)
+      );
+
+      &.ingredient-1 {
+        top: 10%;
+        left: 15%;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      &.ingredient-2 {
+        top: 50%;
+        right: 10%;
+        animation: float 4s ease-in-out infinite 1s;
+      }
+
+      &.ingredient-3 {
+        bottom: 15%;
+        left: 30%;
+        animation: float 4s ease-in-out infinite 2s;
+      }
+
+      &.ingredient-4 {
+        bottom: 20%;
+        right: 20%;
+        animation: float 4s ease-in-out infinite 3s;
+      }
+    }
+  }
+}
+
+// Visit Section
+.visit-section {
+  padding: 5rem 2rem;
+
+  .visit-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto 3rem;
+  }
+
+  .visit-card {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 31, 58, 0.8),
+      rgba(10, 14, 39, 0.8)
+    );
+    border: 1px solid rgba($accent-gold, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: $accent-gold;
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+    }
+
+    .visit-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h5 {
+      color: $text-light;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+// CTA Section
+.cta-section {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.15),
+    rgba(244, 208, 63, 0.08)
+  );
+  border-top: 2px solid $accent-gold;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  .cta-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-form {
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto;
+    gap: 0.5rem;
+
+    .form-control {
+      background: rgba(26, 31, 58, 0.8);
+      border: 2px solid $accent-gold;
+      color: $text-light;
+      padding: 0.8rem 1rem;
+      border-radius: 25px;
+
+      &::placeholder {
+        color: $text-muted;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+      }
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Section Titles
+.section-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, $accent-gold, transparent);
+  }
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.btn-primary-gold {
+  background: linear-gradient(135deg, $accent-gold, $light-gold);
+  color: $primary-black !important;
+  border: none;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+  }
+}
+
+// Animations (moved to global styles.scss)
+// @keyframes fadeInUp and float are now in global styles
+
+// Responsive
+@media (max-width: 768px) {
+  .about-stonecrust,
+  .products-section,
+  .achievements-section,
+  .ingredients-section,
+  .visit-section,
+  .cta-section {
+    padding: 3rem 1rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredients-visual {
+    height: 200px !important;
+
+    .ingredient-circle {
+      width: 70px;
+      height: 70px;
+      font-size: 1.5rem;
+    }
+  }
+
+  .cta-form {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    max-width: 90%;
+  }
+}

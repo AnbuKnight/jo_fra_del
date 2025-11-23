@@ -1,0 +1,216 @@
+<!-- Hero Section -->
+<section class="bakery-hero">
+  <div class="container-fluid">
+    <div class="hero-content text-center" data-aos="fade-up">
+      <h1 class="text-gold mb-3">
+        <span class="hero-icon">🍰</span> STONECRUST ATELIER
+      </h1>
+      <p class="hero-subtitle">
+        Artisan Baking Excellence | Crafted with Passion | Baked to Perfection
+      </p>
+      <p class="hero-tagline">
+        Coming Soon - Premium Artisan Bakery Experience
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- About Stonecrust Section -->
+<section class="about-stonecrust">
+  <div class="container-fluid">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="about-image">
+          <div class="image-placeholder">
+            <span class="large-icon">🍞</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <h2 class="mb-4">About Stonecrust Atelier</h2>
+        <p class="about-text mb-3">
+          Welcome to Stonecrust Atelier, where traditional baking heritage meets
+          modern culinary artistry. We believe that great baking is not just
+          about ingredients—it's about passion, precision, and dedication.
+        </p>
+        <p class="about-text mb-3">
+          Each product is handcrafted by our team of master bakers using the
+          finest organic and locally sourced ingredients. From our signature
+          sourdough to delicate French pastries, every item is created with an
+          unwavering commitment to quality.
+        </p>
+        <p class="about-text mb-4">
+          Our atelier celebrates the ancient art of baking while embracing
+          contemporary techniques, creating an experience that delights all
+          senses and brings joy to every celebration.
+        </p>
+        <button class="btn btn-primary-gold">
+          Learn More About Our Journey
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Showcase -->
+<section class="products-section">
+  <div class="container-fluid">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-title">Our Products</h2>
+      <p class="section-subtitle text-muted">Explore our artisan collections</p>
+    </div>
+
+    <div class="products-grid">
+      <div
+        *ngFor="let product of products; let i = index"
+        class="product-card"
+        [class.specialty]="product.specialty"
+        (click)="selectProduct(product)"
+        [style.--product-delay]="i * 100 + 'ms'"
+        data-aos="fade-up"
+      >
+        <div class="product-badge" *ngIf="product.specialty">SPECIALTY</div>
+        <div class="product-icon">{{ product.icon }}</div>
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-category">{{ product.category }}</p>
+        <p class="product-description">{{ product.description }}</p>
+        <button class="btn btn-sm btn-gold">View Details</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Detail Modal -->
+<div class="product-detail-modal" *ngIf="selectedProduct" [@fadeIn]>
+  <div class="modal-overlay" (click)="closeProductDetail()"></div>
+  <div class="modal-content" data-aos="zoom-in">
+    <button class="close-btn" (click)="closeProductDetail()">✕</button>
+
+    <div class="modal-body">
+      <div class="modal-icon">{{ selectedProduct.icon }}</div>
+      <h2>{{ selectedProduct.name }}</h2>
+      <p class="text-gold">{{ selectedProduct.category }}</p>
+      <p class="modal-description">{{ selectedProduct.description }}</p>
+
+      <div class="modal-actions">
+        <button
+          class="btn btn-primary-gold"
+          (click)="orderNow(selectedProduct)"
+        >
+          Order Now
+        </button>
+        <button class="btn btn-outline-gold" (click)="closeProductDetail()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Achievements Section -->
+<section class="achievements-section">
+  <div class="container-fluid">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-title">Why Stonecrust?</h2>
+      <p class="section-subtitle text-muted">Our commitment to excellence</p>
+    </div>
+
+    <div class="achievements-grid">
+      <div
+        *ngFor="let achievement of achievements; let i = index"
+        class="achievement-card"
+        data-aos="fade-up"
+        [style.--achievement-delay]="i * 100 + 'ms'"
+      >
+        <div class="achievement-icon">{{ achievement.icon }}</div>
+        <h4>{{ achievement.title }}</h4>
+        <p>{{ achievement.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Specialty Ingredients Section -->
+<section class="ingredients-section">
+  <div class="container-fluid">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-left">
+        <h2 class="mb-4">Finest Ingredients, Finest Results</h2>
+        <p class="mb-3">
+          We source only the premium, organic ingredients from trusted local
+          suppliers and international artisans:
+        </p>
+        <ul class="ingredients-list">
+          <li><span class="checkmark">✓</span> Organic European Flour</li>
+          <li>
+            <span class="checkmark">✓</span> Premium Butter from Local Dairies
+          </li>
+          <li><span class="checkmark">✓</span> Fresh Free-Range Eggs</li>
+          <li><span class="checkmark">✓</span> Natural Yeasts & Starters</li>
+          <li><span class="checkmark">✓</span> Gourmet Chocolate & Fruits</li>
+          <li><span class="checkmark">✓</span> Pure Vanilla & Spices</li>
+        </ul>
+      </div>
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="ingredients-visual">
+          <div class="ingredient-circle ingredient-1">🌾</div>
+          <div class="ingredient-circle ingredient-2">🥛</div>
+          <div class="ingredient-circle ingredient-3">🍫</div>
+          <div class="ingredient-circle ingredient-4">🍓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Visit Us Section -->
+<section class="visit-section">
+  <div class="container-fluid text-center">
+    <h2 class="mb-4" data-aos="fade-up">Visit Our Atelier</h2>
+    <p class="section-subtitle text-muted mb-5" data-aos="fade-up">
+      Experience the aroma of fresh-baked creations
+    </p>
+
+    <div class="visit-cards">
+      <div class="visit-card" data-aos="fade-up">
+        <div class="visit-icon">📍</div>
+        <h5>Location</h5>
+        <p class="text-muted">Coming Soon<br />Artisan Bakery District</p>
+      </div>
+      <div class="visit-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="visit-icon">📞</div>
+        <h5>Contact</h5>
+        <p class="text-muted">+1-800-BAKING<br />info@stonecrust.com</p>
+      </div>
+      <div class="visit-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="visit-icon">🕐</div>
+        <h5>Hours</h5>
+        <p class="text-muted">Mon-Fri: 7AM - 8PM<br />Sat-Sun: 8AM - 9PM</p>
+      </div>
+    </div>
+
+    <button
+      class="btn btn-lg btn-primary-gold mt-4"
+      data-aos="fade-up"
+      data-aos-delay="300"
+    >
+      Join Our Mailing List
+    </button>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container-fluid text-center">
+    <h2 class="cta-title" data-aos="fade-up">
+      Excited for Stonecrust Atelier?
+    </h2>
+    <p class="cta-subtitle text-muted" data-aos="fade-up" data-aos-delay="100">
+      Sign up to be notified when we launch
+    </p>
+    <div class="cta-form" data-aos="fade-up" data-aos-delay="200">
+      <input type="email" class="form-control" placeholder="Enter your email" />
+      <button class="btn btn-primary-gold">Notify Me</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,201 @@
+<!-- Hero Section -->
+<section class="tech-hero">
+  <div class="container-fluid">
+    <div class="text-center hero-content" data-aos="fade-up">
+      <h1 class="text-gold mb-3">
+        <span class="hero-icon">💻</span> TECH & TRAINING SOLUTIONS
+      </h1>
+      <p class="hero-subtitle">
+        Empower your career with industry-leading technology training programs
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Courses Section -->
+<section class="courses-section" id="courses">
+  <div class="container-fluid">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-title">Our Courses</h2>
+      <p class="section-subtitle text-muted">
+        Choose from our comprehensive training programs
+      </p>
+    </div>
+
+    <div class="courses-grid">
+      <div
+        *ngFor="let course of courses; let i = index"
+        class="course-card"
+        [class.active]="selectedCourse?.id === course.id"
+        (click)="selectCourse(course)"
+        [style.--course-delay]="i * 100 + 'ms'"
+        [style.--course-color]="course.color"
+        data-aos="fade-up"
+      >
+        <div class="course-card-inner">
+          <div class="course-icon">{{ course.icon }}</div>
+          <h3 class="course-name">{{ course.name }}</h3>
+          <p class="course-level">{{ course.level }}</p>
+          <p class="course-description">{{ course.description }}</p>
+          <div class="course-meta">
+            <span class="duration">📅 {{ course.duration }}</span>
+          </div>
+          <button class="btn btn-sm btn-gold mt-3">Learn More →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Course Details Section -->
+<section class="course-details-section" *ngIf="selectedCourse">
+  <div class="container-fluid">
+    <button class="btn btn-link text-gold mb-4" (click)="getAllReviews()">
+      ← View All Courses
+    </button>
+    <div class="details-card" data-aos="fade-up">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h2 class="mb-3">
+            <span class="course-icon-large">{{ selectedCourse.icon }}</span>
+            {{ selectedCourse.name }}
+          </h2>
+          <p class="text-muted mb-3">
+            Level: <span class="text-gold">{{ selectedCourse.level }}</span>
+          </p>
+          <p class="course-full-description">
+            {{ selectedCourse.description }}
+          </p>
+          <div class="course-highlights mt-4">
+            <h5 class="text-gold mb-3">Course Highlights:</h5>
+            <ul class="highlights-list">
+              <li>
+                <span class="highlight-icon">✓</span> Industry-expert
+                instructors
+              </li>
+              <li>
+                <span class="highlight-icon">✓</span> Hands-on projects &
+                assignments
+              </li>
+              <li>
+                <span class="highlight-icon">✓</span> Lifetime access to course
+                materials
+              </li>
+              <li>
+                <span class="highlight-icon">✓</span> Job placement assistance
+              </li>
+              <li>
+                <span class="highlight-icon">✓</span> Certificate upon
+                completion
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="course-visual">
+            <div class="course-badge">{{ selectedCourse.duration }}</div>
+            <div
+              class="course-image-placeholder"
+              [style.borderColor]="selectedCourse.color"
+            >
+              <span class="large-icon">{{ selectedCourse.icon }}</span>
+            </div>
+            <button class="btn btn-lg btn-primary-gold mt-4">Enroll Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews-section">
+  <div class="container-fluid">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-title">Student Reviews</h2>
+      <p class="section-subtitle text-muted">
+        {{
+          selectedCourse
+            ? "Reviews for " + selectedCourse.name
+            : "Hear from our satisfied students"
+        }}
+      </p>
+    </div>
+
+    <div class="reviews-grid">
+      <div
+        *ngFor="let review of filteredReviews; let i = index"
+        class="review-card"
+        data-aos="fade-up"
+        [style.--review-delay]="(i % 3) * 100 + 'ms'"
+      >
+        <div class="review-header">
+          <div class="review-avatar">{{ review.author.charAt(0) }}</div>
+          <div class="review-info">
+            <h5 class="review-author">{{ review.author }}</h5>
+            <p class="review-course text-muted">{{ review.course }}</p>
+          </div>
+        </div>
+
+        <div class="review-rating">
+          <span *ngFor="let star of getStarArray(review.rating)" class="star"
+            >★</span
+          >
+        </div>
+
+        <p class="review-text">{{ review.text }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container-fluid">
+    <div class="row text-center g-4">
+      <div class="col-md-3" data-aos="fade-up">
+        <div class="stat">
+          <h3 class="text-gold stat-number">{{ courses.length }}+</h3>
+          <p class="stat-label">Courses Offered</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat">
+          <h3 class="text-gold stat-number">500+</h3>
+          <p class="stat-label">Students Trained</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat">
+          <h3 class="text-gold stat-number">95%</h3>
+          <p class="stat-label">Success Rate</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="stat">
+          <h3 class="text-gold stat-number">10+</h3>
+          <p class="stat-label">Years Experience</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container-fluid text-center">
+    <h2 class="cta-title" data-aos="fade-up">
+      Ready to Transform Your Career?
+    </h2>
+    <p class="cta-subtitle text-muted" data-aos="fade-up" data-aos-delay="100">
+      Enroll in one of our comprehensive training programs today
+    </p>
+    <button
+      class="btn btn-lg btn-primary-gold"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      Get Started Now
+    </button>
+  </div>
+</section>

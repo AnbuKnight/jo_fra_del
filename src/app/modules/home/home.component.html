@@ -1,0 +1,160 @@
+<!-- Hero Section (Section 1: About JO.FRA.DEL) -->
+<section class="hero-section" id="about">
+  <canvas id="heroCanvas" class="hero-canvas"></canvas>
+
+  <div class="container-fluid hero-content">
+    <div class="row align-items-center min-vh-100">
+      <div class="col-lg-6 text-center text-lg-start">
+        <div class="hero-text" data-aos="fade-up">
+          <h1 class="hero-title">
+            Welcome to <span class="text-gold">JO.FRA.DEL.</span>
+          </h1>
+          <p class="hero-subtitle text-muted">
+            Empowering Innovation. Creating Excellence. Building Futures.
+          </p>
+          <p class="hero-description">
+            JO.FRA.DEL. is a dynamic organization committed to delivering
+            excellence across multiple ventures. From cutting-edge technology
+            training to artisan culinary solutions, we combine innovation,
+            quality, and tradition to create meaningful impact in every domain
+            we operate.
+          </p>
+          <div class="hero-stats mt-5">
+            <div class="stat-item">
+              <h3 class="text-gold">100+</h3>
+              <p class="text-muted">Trained Professionals</p>
+            </div>
+            <div class="stat-item">
+              <h3 class="text-gold">5+</h3>
+              <p class="text-muted">Specialized Courses</p>
+            </div>
+            <div class="stat-item">
+              <h3 class="text-gold">2+</h3>
+              <p class="text-muted">Ventures</p>
+            </div>
+          </div>
+          <button
+            class="btn btn-primary-gold mt-5"
+            (click)="scrollToSection('ventures')"
+          >
+            Explore Our Ventures
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <div class="hero-visual">
+          <div class="logo-container">
+            <img
+              src="assets/images/master_logo.jpg"
+              alt="JO.FRA.DEL. Master Logo"
+              class="master-logo"
+              data-aos="zoom-in"
+            />
+          </div>
+          <div class="floating-accent card-1">◆</div>
+          <div class="floating-accent card-2">★</div>
+          <div class="floating-accent card-3">✦</div>
+          <div class="glow-circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ventures Section (Section 2: 3D Venture Cards) -->
+<section class="ventures-section" id="ventures">
+  <div class="container-fluid">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-title">Our Ventures</h2>
+      <p class="section-subtitle text-muted">
+        Discover our diverse portfolio of excellence
+      </p>
+    </div>
+
+    <div class="ventures-grid">
+      <div
+        *ngFor="let venture of ventures; let i = index"
+        class="venture-card-wrapper"
+        [class.coming-soon]="venture.status === 'coming-soon'"
+        [style.--card-delay]="i * 100 + 'ms'"
+        data-aos="fade-up"
+      >
+        <div class="venture-card" (click)="selectVenture(venture)">
+          <div class="card-inner">
+            <!-- Front of card -->
+            <div class="card-front">
+              <div class="card-icon">{{ venture.icon }}</div>
+              <h3 class="card-title">{{ venture.shortName }}</h3>
+              <p class="card-status" *ngIf="venture.status === 'coming-soon'">
+                COMING SOON
+              </p>
+            </div>
+
+            <!-- Back of card -->
+            <div class="card-back">
+              <p class="card-description">{{ venture.description }}</p>
+              <button
+                *ngIf="venture.status !== 'coming-soon'"
+                class="btn btn-sm btn-gold"
+                (click)="navigateToVenture(venture.route)"
+              >
+                Learn More →
+              </button>
+              <span *ngIf="venture.status === 'coming-soon'" class="text-gold">
+                Stay Tuned
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="why-us-section">
+  <div class="container-fluid">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-title">Why Choose Us</h2>
+      <p class="section-subtitle text-muted">Excellence in everything we do</p>
+    </div>
+
+    <div class="row g-4">
+      <div
+        class="col-md-6 col-lg-3"
+        *ngFor="
+          let benefit of ['Innovation', 'Quality', 'Expertise', 'Commitment']
+        "
+      >
+        <div class="benefit-card" data-aos="fade-up">
+          <div class="benefit-icon">◆</div>
+          <h5 class="text-gold">{{ benefit }}</h5>
+          <p class="text-muted">
+            Delivering excellence through {{ benefit | lowercase }} in every
+            venture.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+  <div class="container-fluid text-center">
+    <h2 class="cta-title" data-aos="fade-up">
+      Ready to Transform Your Skills?
+    </h2>
+    <p class="cta-subtitle text-muted" data-aos="fade-up" data-aos-delay="100">
+      Start your journey with JO.FRA.DEL. today
+    </p>
+    <button
+      class="btn btn-lg btn-primary-gold"
+      (click)="navigateToVenture('tech_and_training')"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      Get Started Now
+    </button>
+  </div>
+</section>

@@ -1,0 +1,442 @@
+@import "../../variables";
+
+// Hero Section
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, $primary-black 0%, $secondary-black 100%);
+  padding: 2rem 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1), transparent);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+}
+
+.hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-text {
+  padding: 2rem;
+
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    animation: slideInLeft 1s ease;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    animation: slideInLeft 1.2s ease;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 500px;
+    margin-bottom: 2rem;
+    animation: slideInLeft 1.4s ease;
+  }
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+
+  .stat-item {
+    text-align: center;
+
+    h3 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.btn-primary-gold {
+  background: linear-gradient(135deg, $accent-gold, $light-gold);
+  color: $primary-black !important;
+  border: none;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+}
+
+.hero-visual {
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .logo-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .master-logo {
+    max-width: 300px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+    border: 3px solid $accent-gold;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    animation: float 4s ease-in-out infinite;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 30px 80px rgba(212, 175, 55, 0.5);
+    }
+  }
+
+  .floating-accent {
+    position: absolute;
+    font-size: 4rem;
+    animation: float 4s ease-in-out infinite;
+    opacity: 0.8;
+
+    &.card-1 {
+      animation-delay: 0s;
+      top: 10%;
+      left: 10%;
+      color: $accent-gold;
+    }
+
+    &.card-2 {
+      animation-delay: 1s;
+      top: 50%;
+      right: 15%;
+      color: $light-gold;
+      font-size: 3rem;
+    }
+
+    &.card-3 {
+      animation-delay: 2s;
+      bottom: 20%;
+      left: 20%;
+      color: $accent-gold;
+      font-size: 2.5rem;
+    }
+  }
+
+  .glow-circle {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 2px solid $accent-gold;
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+    opacity: 0.3;
+  }
+}
+
+// Ventures Section
+.ventures-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 14, 39, 0.5),
+    rgba(26, 31, 58, 0.5)
+  );
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $accent-gold, transparent);
+  }
+}
+
+.ventures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.venture-card-wrapper {
+  perspective: 1000px;
+  animation: fadeInUp 0.6s ease backwards;
+  animation-delay: var(--card-delay, 0ms);
+
+  &.coming-soon .venture-card {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.venture-card {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &:hover {
+    .card-inner {
+      transform: rotateY(180deg);
+    }
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid $accent-gold;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 31, 58, 0.9),
+      rgba(10, 14, 39, 0.9)
+    );
+    backdrop-filter: blur(10px);
+    backface-visibility: hidden;
+  }
+
+  .card-front {
+    z-index: 2;
+    gap: 1rem;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    gap: 1rem;
+  }
+
+  .card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $text-light;
+  }
+
+  .card-status {
+    color: $light-gold;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .card-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: $text-light;
+  }
+
+  .btn-gold {
+    background-color: $accent-gold;
+    color: $primary-black;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $light-gold;
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Why Us Section
+.why-us-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 31, 58, 0.5),
+    rgba(10, 14, 39, 0.5)
+  );
+}
+
+.benefit-card {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.05),
+    rgba(244, 208, 63, 0.02)
+  );
+  border: 1px solid rgba($accent-gold, 0.2);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $accent-gold;
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+  }
+
+  .benefit-icon {
+    font-size: 2.5rem;
+    color: $accent-gold;
+    margin-bottom: 1rem;
+  }
+
+  h5 {
+    color: $text-light;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// CTA Section
+.cta-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.1),
+    rgba(244, 208, 63, 0.05)
+  );
+  border-top: 2px solid $accent-gold;
+  border-bottom: 2px solid $accent-gold;
+  text-align: center;
+
+  .cta-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+// Section Titles
+.section-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, $accent-gold, transparent);
+  }
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+// Animations (moved to global styles.scss)
+// @keyframes slideInLeft, fadeInUp, float, rotate, pulse are now in global styles
+
+// Responsive Design
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
+
+  .hero-text {
+    padding: 1rem;
+  }
+
+  .hero-visual {
+    height: 250px;
+    margin-top: 2rem;
+
+    .master-logo {
+      max-width: 200px;
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  .ventures-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .venture-card {
+    height: 300px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ventures-section,
+  .why-us-section,
+  .cta-section {
+    padding: 3rem 1rem;
+  }
+}
