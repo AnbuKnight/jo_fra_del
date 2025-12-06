@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Product {
   id: string;
@@ -103,7 +104,7 @@ export class StonecrusatielierComponent implements OnInit {
 
   selectedProduct: Product | null = null;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     // Initialize component
@@ -121,5 +122,13 @@ export class StonecrusatielierComponent implements OnInit {
     alert(
       `Thank you for your interest in ${product.name}. Visit our storefront or call us to place an order!`
     );
+  }
+
+  navigateToPresetCakes() {
+    this.router.navigate(['stonecrust_atelier/preset-cakes']);
+  }
+
+  navigateToBakeYourCake() {
+    this.router.navigate(['stonecrust_atelier/bake-your-cake']);
   }
 }

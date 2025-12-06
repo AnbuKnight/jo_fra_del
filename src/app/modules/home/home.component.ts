@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       icon: '🍰',
       route: 'stonecrust_atelier',
       color: '#e67e22',
-      status: 'coming-soon',
     },
   ];
 

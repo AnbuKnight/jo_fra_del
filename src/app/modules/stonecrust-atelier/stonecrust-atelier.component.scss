@@ -23,6 +23,43 @@
     font-weight: 600;
     margin-top: 1rem;
   }
+
+  .hero-options {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+
+    .btn {
+      padding: 1rem 2.5rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      border: none;
+
+      &.btn-gold {
+        background: linear-gradient(135deg, $accent-gold, $light-gold);
+        color: $primary-black !important;
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+      }
+
+      &.btn-primary-gold {
+        background: linear-gradient(135deg, $light-gold, $accent-gold);
+        color: $primary-black !important;
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 40px rgba(244, 208, 63, 0.4);
+        }
+      }
+    }
+  }
 }
 
 // About Section

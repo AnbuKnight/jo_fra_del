@@ -9,8 +9,27 @@
         Artisan Baking Excellence | Crafted with Passion | Baked to Perfection
       </p>
       <p class="hero-tagline">
-        Coming Soon - Premium Artisan Bakery Experience
+        Premium Artisan Bakery - Customize Your Perfect Cake
       </p>
+
+      <!-- Navigation Options -->
+      <div class="hero-options mt-5">
+        <button
+          class="btn btn-lg btn-gold"
+          (click)="navigateToPresetCakes()"
+          data-aos="fade-up"
+        >
+          🎂 Preset Cakes
+        </button>
+        <button
+          class="btn btn-lg btn-primary-gold"
+          (click)="navigateToBakeYourCake()"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          🎨 Bake Your Own Cake
+        </button>
+      </div>
     </div>
   </div>
 </section>

@@ -1,0 +1,1052 @@
+@import "../../../variables";
+
+.bake-your-cake-page {
+  background: linear-gradient(135deg, $primary-black 0%, $secondary-black 100%);
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+// Hero Section
+.bake-hero {
+  padding: 4rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.1),
+    rgba(244, 208, 63, 0.05)
+  );
+  border-bottom: 2px solid $accent-gold;
+  text-align: center;
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: 2px;
+    animation: slideInLeft 0.8s ease;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: $light-gold;
+    margin-top: 1rem;
+    animation: slideInRight 0.8s ease 0.2s backwards;
+  }
+}
+
+// Customization Section
+.customization-section {
+  padding: 5rem 2rem;
+}
+
+// Customization Panel
+.customization-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.9),
+    rgba(10, 14, 39, 0.9)
+  );
+  border: 2px solid $accent-gold;
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(10px);
+
+  .panel-title {
+    color: $accent-gold;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+
+  .customization-group {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba($accent-gold, 0.2);
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .option-label {
+    display: block;
+    color: $text-light;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    .label-emoji {
+      font-size: 1.3rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  // Shape Grid
+  .shape-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .shape-option {
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.05),
+      rgba(244, 208, 63, 0.02)
+    );
+    border: 2px solid rgba($accent-gold, 0.3);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .shape-emoji {
+      font-size: 2rem;
+      display: block;
+    }
+
+    .shape-label {
+      color: $text-light;
+      font-size: 0.9rem;
+    }
+
+    &.active {
+      background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.2),
+        rgba(244, 208, 63, 0.1)
+      );
+      border-color: $accent-gold;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+      transform: scale(1.05);
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: $accent-gold;
+    }
+  }
+
+  // Select Dropdown
+  .custom-select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(26, 31, 58, 0.8);
+    border: 2px solid rgba($accent-gold, 0.3);
+    border-radius: 10px;
+    color: $text-light;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover,
+    &:focus {
+      border-color: $accent-gold;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+      outline: none;
+    }
+
+    option {
+      background: $secondary-black;
+      color: $text-light;
+    }
+  }
+
+  // Toggle Switch
+  .toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    color: $text-light;
+    font-weight: 600;
+
+    .label-emoji {
+      font-size: 1.3rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      input {
+        display: none;
+      }
+
+      .toggle-slider {
+        display: inline-block;
+        width: 50px;
+        height: 28px;
+        background: rgba(212, 175, 55, 0.3);
+        border: 2px solid rgba($accent-gold, 0.5);
+        border-radius: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          background: $accent-gold;
+          border-radius: 50%;
+          top: 2px;
+          left: 2px;
+          transition: all 0.3s ease;
+        }
+      }
+
+      input:checked + .toggle-slider {
+        background: rgba($accent-gold, 0.5);
+        border-color: $accent-gold;
+
+        &::after {
+          left: 26px;
+          background: $light-gold;
+        }
+      }
+
+      .toggle-label-text {
+        font-size: 0.85rem;
+        color: $accent-gold;
+        min-width: 80px;
+      }
+    }
+  }
+
+  // Flavor Grid
+  .flavor-grid,
+  .toppings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.8rem;
+  }
+
+  // Layers Grid
+  .layers-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+
+  .layer-button {
+    padding: 1rem;
+    background: linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.05),
+      rgba(244, 208, 63, 0.02)
+    );
+    border: 2px solid rgba($accent-gold, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: $text-light;
+    font-weight: 700;
+    font-size: 0.95rem;
+
+    &.active {
+      background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.3),
+        rgba(244, 208, 63, 0.15)
+      );
+      border-color: $accent-gold;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+      transform: scale(1.05);
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: $accent-gold;
+    }
+  }
+
+  .flavor-button,
+  .topping-button {
+    padding: 1rem;
+    background: linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.05),
+      rgba(244, 208, 63, 0.02)
+    );
+    border: 2px solid rgba($accent-gold, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-light;
+    font-weight: 600;
+
+    .flavor-emoji,
+    .topping-emoji {
+      font-size: 2rem;
+    }
+
+    .flavor-name,
+    .topping-label {
+      font-size: 0.8rem;
+    }
+
+    &.active {
+      background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.3),
+        rgba(244, 208, 63, 0.15)
+      );
+      border-color: $accent-gold;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+      transform: scale(1.08);
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: $accent-gold;
+    }
+  }
+
+  // Message Textarea
+  .message-textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(26, 31, 58, 0.8);
+    border: 2px solid rgba($accent-gold, 0.3);
+    border-radius: 10px;
+    color: $text-light;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    transition: all 0.3s ease;
+
+    &:hover,
+    &:focus {
+      border-color: $accent-gold;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $text-muted;
+    }
+  }
+
+  .char-count {
+    display: block;
+    color: $text-muted;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+}
+
+// Preview Section
+.preview-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// Animated Character
+.animated-character {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.chef-container {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chef {
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+
+  &.baking-animation {
+    animation: chefBaking 1.5s ease-in-out;
+  }
+
+  &.reset-animation {
+    animation: chefReset 1s ease-out;
+  }
+
+  .chef-head {
+    font-size: 2.5rem;
+  }
+
+  .chef-hands {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+// Cake Preview Container
+.cake-preview-container {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.95),
+    rgba(10, 14, 39, 0.95)
+  );
+  border: 3px solid rgba($accent-gold, 0.5);
+  border-radius: 25px;
+  padding: 2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+// 3D Cake Viewport
+.cake-viewport {
+  perspective: 1500px;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 3D Cake Display
+.cake-display-3d {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(20deg) rotateY(var(--rotation, 0deg));
+  transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: pointer;
+  animation: cakeAppear 0.6s ease;
+
+  &:hover {
+    filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.6));
+  }
+
+  &.baking-animation {
+    animation: bakingProcess 1.5s ease-in-out;
+  }
+
+  &.reset-animation {
+    animation: cakeReset 1s ease-out;
+  }
+}
+
+// 3D Cake Faces
+.cake-face {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.8),
+    rgba(10, 14, 39, 0.8)
+  );
+}
+
+.cake-front {
+  transform: translateZ(100px);
+}
+
+.cake-right {
+  transform: rotateY(90deg) translateZ(100px);
+}
+
+.cake-back {
+  transform: rotateY(180deg) translateZ(100px);
+}
+
+.cake-left {
+  transform: rotateY(-90deg) translateZ(100px);
+}
+
+.cake-top {
+  transform: rotateX(90deg) translateZ(100px);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.3),
+    rgba(244, 208, 63, 0.2)
+  );
+}
+
+.cake-bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+  background: linear-gradient(
+    135deg,
+    rgba(10, 14, 39, 0.95),
+    rgba(26, 31, 58, 0.9)
+  );
+}
+
+// Cake Display (legacy - keeping for shape variations)
+.cake-display {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 2rem;
+  position: relative;
+  animation: cakeAppear 0.6s ease;
+
+  &.baking-animation {
+    animation: bakingProcess 1.5s ease-in-out;
+  }
+
+  &.reset-animation {
+    animation: cakeReset 1s ease-out;
+  }
+
+  .cake-shape {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    background: linear-gradient(
+      135deg,
+      rgba(218, 165, 32, 0.8),
+      rgba(255, 215, 0, 0.6)
+    );
+    border: 3px solid rgba(212, 175, 55, 0.6);
+    border-radius: 30%;
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3),
+      inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  // Shape variations
+  &.shape-circle .cake-shape {
+    border-radius: 50%;
+  }
+
+  &.shape-square .cake-shape {
+    border-radius: 10px;
+  }
+
+  &.shape-heart .cake-shape {
+    border-radius: 20% 20% 0 0;
+  }
+
+  &.shape-triangle .cake-shape {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  // Flour color variations
+  &.flour-wheat .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(139, 69, 19, 0.8),
+      rgba(210, 180, 140, 0.6)
+    );
+  }
+
+  &.flour-ragi .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(165, 42, 42, 0.8),
+      rgba(205, 92, 92, 0.6)
+    );
+  }
+
+  // Flavor color variations
+  &.flavor-carrot .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 140, 0, 0.8),
+      rgba(255, 165, 0, 0.6)
+    );
+  }
+
+  &.flavor-apple .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(220, 20, 60, 0.8),
+      rgba(255, 0, 0, 0.6)
+    );
+  }
+
+  &.flavor-beetroot .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(139, 0, 139, 0.8),
+      rgba(199, 21, 133, 0.6)
+    );
+  }
+
+  &.flavor-orange .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 100, 0, 0.8),
+      rgba(255, 140, 0, 0.6)
+    );
+  }
+
+  &.flavor-pomegranate .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(220, 20, 60, 0.8),
+      rgba(255, 69, 0, 0.6)
+    );
+  }
+
+  &.flavor-guava .cake-shape {
+    background: linear-gradient(
+      135deg,
+      rgba(240, 128, 128, 0.8),
+      rgba(255, 182, 193, 0.6)
+    );
+  }
+
+  .cake-toppings {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    animation: toppingAppear 0.5s ease;
+  }
+
+  .cake-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $primary-black;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+    max-width: 80%;
+    word-wrap: break-word;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    animation: messageAppear 0.6s ease 0.3s backwards;
+  }
+}
+
+// Process Indicator
+.baking-process {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 15px;
+}
+
+.process-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+
+  .step-icon {
+    font-size: 1.8rem;
+  }
+
+  .step-label {
+    color: $text-muted;
+    font-size: 0.8rem;
+  }
+
+  &.active {
+    opacity: 1;
+
+    .step-icon {
+      animation: pulse 0.6s ease-out;
+    }
+
+    .step-label {
+      color: $accent-gold;
+      font-weight: 700;
+    }
+  }
+}
+
+// Price Breakdown
+.price-breakdown {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.1),
+    rgba(244, 208, 63, 0.05)
+  );
+  border: 2px solid $accent-gold;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  .breakdown-title {
+    color: $accent-gold;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .price-items {
+    margin-bottom: 1rem;
+  }
+
+  .price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    color: $text-light;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba($accent-gold, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    span:last-child {
+      color: $accent-gold;
+      font-weight: 600;
+    }
+  }
+
+  .price-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba($accent-gold, 0.1);
+    border-radius: 10px;
+    font-weight: 700;
+
+    span:first-child {
+      color: $text-light;
+    }
+
+    .total-amount {
+      color: $accent-gold;
+      font-size: 1.3rem;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+  }
+}
+
+// Action Buttons
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.btn-warning {
+      background-color: rgba(243, 156, 18, 0.8);
+      color: white;
+
+      &:hover {
+        background-color: rgba(243, 156, 18, 1);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+      }
+    }
+
+    &.btn-gold {
+      background-color: $accent-gold;
+      color: $primary-black;
+
+      &:hover {
+        background-color: $light-gold;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+      }
+    }
+
+    &.btn-success {
+      background-color: rgba(46, 204, 113, 0.8);
+      color: white;
+
+      &:hover {
+        background-color: rgba(46, 204, 113, 1);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes chefBaking {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+  75% {
+    transform: translateY(-10px) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes chefReset {
+  0% {
+    transform: scale(0.8) rotate(10deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bakingProcess {
+  0% {
+    transform: scale(0.95) rotateZ(0deg);
+    filter: brightness(0.8);
+  }
+  50% {
+    transform: scale(1.05) rotateZ(5deg);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1) rotateZ(0deg);
+    filter: brightness(1);
+  }
+}
+
+@keyframes cakeAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cakeReset {
+  0% {
+    transform: scale(1) rotateZ(0deg);
+  }
+  50% {
+    transform: scale(0.8) rotateZ(10deg);
+  }
+  100% {
+    transform: scale(1) rotateZ(0deg);
+  }
+}
+
+@keyframes toppingAppear {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+// Cake Hint
+.cake-hint {
+  text-align: center;
+  color: $light-gold;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 992px) {
+  .customization-section {
+    .row {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .cake-viewport {
+    width: 280px;
+    height: 280px;
+  }
+
+  .cake-display-3d {
+    width: 180px;
+    height: 180px;
+  }
+
+  .cake-face {
+    width: 180px;
+    height: 180px;
+  }
+
+  .cake-front,
+  .cake-right,
+  .cake-back,
+  .cake-left {
+    transform: translateZ(90px);
+  }
+
+  .cake-right {
+    transform: rotateY(90deg) translateZ(90px);
+  }
+
+  .cake-back {
+    transform: rotateY(180deg) translateZ(90px);
+  }
+
+  .cake-left {
+    transform: rotateY(-90deg) translateZ(90px);
+  }
+
+  .cake-top {
+    transform: rotateX(90deg) translateZ(90px);
+  }
+
+  .cake-bottom {
+    transform: rotateX(-90deg) translateZ(90px);
+  }
+}
+
+// Responsive
+@media (max-width: 992px) {
+  .customization-section {
+    .row {
+      flex-direction: column-reverse;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .bake-hero {
+    padding: 3rem 1rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .customization-section {
+    padding: 2rem 1rem;
+  }
+
+  .customization-panel {
+    padding: 1.5rem;
+  }
+
+  .shape-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flavor-grid,
+  .toppings-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+
+  .cake-display {
+    width: 150px;
+    height: 150px;
+  }
+
+  .cake-viewport {
+    width: 250px;
+    height: 250px;
+  }
+
+  .cake-display-3d {
+    width: 160px;
+    height: 160px;
+  }
+
+  .cake-face {
+    width: 160px;
+    height: 160px;
+  }
+
+  .cake-front,
+  .cake-right,
+  .cake-back,
+  .cake-left {
+    transform: translateZ(80px);
+  }
+
+  .cake-right {
+    transform: rotateY(90deg) translateZ(80px);
+  }
+
+  .cake-back {
+    transform: rotateY(180deg) translateZ(80px);
+  }
+
+  .cake-left {
+    transform: rotateY(-90deg) translateZ(80px);
+  }
+
+  .cake-top {
+    transform: rotateX(90deg) translateZ(80px);
+  }
+
+  .cake-bottom {
+    transform: rotateX(-90deg) translateZ(80px);
+  }
+
+  .action-buttons {
+    .btn {
+      min-width: 90px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+}

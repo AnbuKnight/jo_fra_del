@@ -1,0 +1,94 @@
+<div class="preset-cakes-page">
+  <!-- Hero Section -->
+  <section class="preset-hero">
+    <div class="container-fluid text-center" data-aos="fade-up">
+      <h1 class="text-gold mb-3">🍰 PRESET CAKES</h1>
+      <p class="hero-subtitle">
+        Handcrafted Artisan Cakes - Choose from Our Collections
+      </p>
+    </div>
+  </section>
+
+  <!-- Cakes Grid with Hologram Effect -->
+  <section class="cakes-section">
+    <div class="container-fluid">
+      <div class="cakes-grid">
+        <div
+          *ngFor="let cake of cakes; let i = index"
+          class="cake-card hologram-card"
+          [style.--card-index]="i"
+          data-aos="zoom-in"
+        >
+          <!-- Hologram effect layers -->
+          <div class="hologram-layer layer-1"></div>
+          <div class="hologram-layer layer-2"></div>
+          <div class="hologram-layer layer-3"></div>
+
+          <!-- Cake Image -->
+          <div class="cake-image-wrapper">
+            <img [src]="cake.image" [alt]="cake.name" class="cake-image" />
+          </div>
+
+          <!-- Cake Info -->
+          <div class="cake-info">
+            <h3 class="cake-name">{{ cake.name }}</h3>
+            <p class="cake-price text-gold">₹{{ cake.price }}</p>
+
+            <!-- Action Buttons -->
+            <div class="cake-actions">
+              <button
+                class="btn btn-sm btn-info"
+                (click)="showIngredients(cake)"
+              >
+                👀 Ingredients
+              </button>
+              <button class="btn btn-sm btn-gold" (click)="addToCart(cake)">
+                🛒 Add to Cart
+              </button>
+              <button class="btn btn-sm btn-success" (click)="buyNow(cake)">
+                💳 Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ingredients Modal -->
+  <div
+    class="ingredients-modal-overlay"
+    *ngIf="showIngredientsModal"
+    (click)="closeIngredientsModal()"
+  >
+    <div
+      class="ingredients-modal"
+      *ngIf="selectedCake"
+      (click)="$event.stopPropagation()"
+      data-aos="zoom-in"
+    >
+      <button class="close-btn" (click)="closeIngredientsModal()">✕</button>
+
+      <div class="modal-header">
+        <div class="modal-icon">🎂</div>
+        <h2>{{ selectedCake.name }}</h2>
+      </div>
+
+      <div class="modal-body">
+        <h4 class="ingredients-title">✨ Premium Ingredients:</h4>
+        <ul class="ingredients-list">
+          <li *ngFor="let ingredient of selectedCake.ingredients">
+            <span class="ingredient-bullet">✓</span>
+            <span>{{ ingredient }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary-gold" (click)="addToCart(selectedCake)">
+          Add to Cart & Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

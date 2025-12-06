@@ -1,0 +1,441 @@
+@import "../../../variables";
+
+.preset-cakes-page {
+  background: linear-gradient(135deg, $primary-black 0%, $secondary-black 100%);
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+// Hero Section
+.preset-hero {
+  padding: 4rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(230, 126, 34, 0.15),
+    rgba(212, 175, 55, 0.1)
+  );
+  border-bottom: 2px solid $accent-gold;
+  text-align: center;
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: 2px;
+    animation: slideInLeft 0.8s ease;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: $light-gold;
+    margin-top: 1rem;
+    animation: slideInRight 0.8s ease 0.2s backwards;
+  }
+}
+
+// Cakes Grid Section
+.cakes-section {
+  padding: 5rem 2rem;
+}
+
+.cakes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+// Hologram Card Effect
+.hologram-card {
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: float 4s ease-in-out infinite;
+  animation-delay: calc(var(--card-index) * 0.1s);
+
+  &:hover {
+    transform: translateY(-15px) rotateZ(2deg);
+
+    .hologram-layer {
+      opacity: 1;
+      animation: hologramPulse 0.8s ease-out;
+    }
+
+    .cake-image {
+      filter: brightness(1.3) drop-shadow(0 0 20px rgba(212, 175, 55, 0.8));
+    }
+  }
+
+  .hologram-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+
+    &.layer-1 {
+      border: 2px solid rgba(212, 175, 55, 0.6);
+      box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.2),
+        0 0 20px rgba(212, 175, 55, 0.4);
+    }
+
+    &.layer-2 {
+      border: 1px solid rgba(244, 208, 63, 0.4);
+      box-shadow: inset 0 0 40px rgba(244, 208, 63, 0.1),
+        0 0 40px rgba(244, 208, 63, 0.2);
+      animation-delay: 0.1s;
+    }
+
+    &.layer-3 {
+      background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(212, 175, 55, 0.05) 50%,
+        transparent 100%
+      );
+      box-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
+    }
+  }
+
+  // Card Background
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.95),
+    rgba(10, 14, 39, 0.95)
+  );
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+
+  .cake-image-wrapper {
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.1),
+      rgba(244, 208, 63, 0.05)
+    );
+  }
+
+  .cake-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+  }
+
+  .cake-info {
+    text-align: center;
+  }
+
+  .cake-name {
+    color: $text-light;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .cake-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+
+  .cake-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .btn {
+      flex: 1;
+      min-width: 100px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      border: none;
+
+      &.btn-info {
+        background-color: rgba(52, 152, 219, 0.8);
+        color: white;
+
+        &:hover {
+          background-color: rgba(52, 152, 219, 1);
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+      }
+
+      &.btn-gold {
+        background-color: $accent-gold;
+        color: $primary-black;
+
+        &:hover {
+          background-color: $light-gold;
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+      }
+
+      &.btn-success {
+        background-color: rgba(46, 204, 113, 0.8);
+        color: white;
+
+        &:hover {
+          background-color: rgba(46, 204, 113, 1);
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+      }
+    }
+  }
+}
+
+// Ingredients Modal
+.ingredients-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeInUp 0.3s ease;
+}
+
+.ingredients-modal {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 58, 0.98),
+    rgba(10, 14, 39, 0.98)
+  );
+  border: 3px solid $accent-gold;
+  border-radius: 25px;
+  padding: 3rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
+  animation: slideInLeft 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  // Decorative border pattern
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    right: 20px;
+    height: 20px;
+    background: repeating-linear-gradient(
+      90deg,
+      $accent-gold 0px,
+      $accent-gold 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    right: 20px;
+    height: 20px;
+    background: repeating-linear-gradient(
+      90deg,
+      $accent-gold 0px,
+      $accent-gold 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    border-radius: 50%;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: $accent-gold;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: $primary-black;
+    font-weight: 700;
+
+    &:hover {
+      background: $light-gold;
+      transform: rotate(90deg) scale(1.1);
+    }
+  }
+
+  .modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba($accent-gold, 0.3);
+
+    .modal-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    h2 {
+      color: $text-light;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+    }
+  }
+
+  .modal-body {
+    margin-bottom: 2rem;
+  }
+
+  .ingredients-title {
+    color: $accent-gold;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.8rem 0;
+      color: $text-light;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid rgba($accent-gold, 0.1);
+      transition: all 0.2s ease;
+
+      &:hover {
+        padding-left: 1rem;
+        color: $accent-gold;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .ingredient-bullet {
+        color: $accent-gold;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .modal-footer {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 2px solid rgba($accent-gold, 0.3);
+
+    .btn {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Animations
+@keyframes hologramPulse {
+  0% {
+    opacity: 0;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.8);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .preset-hero {
+    padding: 3rem 1rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .cakes-section {
+    padding: 2rem 1rem;
+  }
+
+  .cakes-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hologram-card {
+    .cake-image-wrapper {
+      height: 200px;
+    }
+
+    .cake-actions {
+      .btn {
+        min-width: 80px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .ingredients-modal {
+    padding: 2rem;
+    border-radius: 15px;
+
+    .modal-header {
+      .modal-icon {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}

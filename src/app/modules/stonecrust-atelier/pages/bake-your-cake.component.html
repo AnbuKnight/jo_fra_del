@@ -1,0 +1,305 @@
+<div class="bake-your-cake-page">
+  <!-- Hero Section -->
+  <section class="bake-hero">
+    <div class="container-fluid text-center" data-aos="fade-up">
+      <h1 class="text-gold mb-3">🎨 BAKE YOUR OWN CAKE</h1>
+      <p class="hero-subtitle">
+        Create Your Perfect Artisan Cake - Customize Every Detail!
+      </p>
+    </div>
+  </section>
+
+  <!-- Customization Section -->
+  <section class="customization-section">
+    <div class="container-fluid">
+      <div class="row g-5 align-items-start">
+        <!-- Left Side: Customization Options -->
+        <div class="col-lg-6" data-aos="fade-right">
+          <div class="customization-panel">
+            <h2 class="panel-title">🧁 Customize Your Cake</h2>
+
+            <!-- Shape Selection -->
+            <div class="customization-group">
+              <label class="option-label">
+                <span class="label-emoji">⭕</span> Cake Shape
+              </label>
+              <div class="shape-grid">
+                <div
+                  *ngFor="let shape of shapes"
+                  class="shape-option"
+                  [class.active]="customization.shape === shape.value"
+                  (click)="
+                    customization.shape = shape.value; onCustomizationChange()
+                  "
+                >
+                  <span class="shape-emoji">{{ shape.emoji }}</span>
+                  <span class="shape-label">{{ shape.label }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Flour Selection -->
+            <div class="customization-group">
+              <label class="option-label">
+                <span class="label-emoji">🌾</span> Flour Type
+              </label>
+              <select
+                [(ngModel)]="customization.flour"
+                (change)="onCustomizationChange()"
+                class="custom-select"
+              >
+                <option *ngFor="let flour of flours" [value]="flour.value">
+                  {{ flour.label }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Layers Selection -->
+            <div class="customization-group">
+              <label class="option-label">
+                <span class="label-emoji">📚</span> Cake Layers
+              </label>
+              <div class="layers-buttons">
+                <button
+                  *ngFor="let layer of [1, 2, 3]"
+                  class="layer-button"
+                  [class.active]="customization.layers === layer"
+                  (click)="
+                    customization.layers = layer; onCustomizationChange()
+                  "
+                >
+                  {{ layer }} Layer{{ layer > 1 ? "s" : "" }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Sugar Toggle -->
+            <div class="customization-group">
+              <label class="toggle-label">
+                <span class="label-emoji">🍬</span> Add Sugar
+                <div class="toggle-switch">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="customization.sugar"
+                    (change)="onCustomizationChange()"
+                  />
+                  <span class="toggle-slider"></span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Egg Type Toggle -->
+            <div class="customization-group">
+              <label class="toggle-label">
+                <span class="label-emoji">🥚</span> Egg Type
+                <div class="toggle-switch">
+                  <input
+                    type="checkbox"
+                    [checked]="customization.eggType === 'egg'"
+                    (change)="
+                      customization.eggType =
+                        customization.eggType === 'egg' ? 'eggless' : 'egg';
+                      onCustomizationChange()
+                    "
+                  />
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-label-text">{{
+                    customization.eggType === "egg" ? "With Egg" : "Eggless"
+                  }}</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Flavor Selection -->
+            <div class="customization-group">
+              <label class="option-label">
+                <span class="label-emoji">🍊</span> Flavor
+              </label>
+              <div class="flavor-grid">
+                <button
+                  *ngFor="let flavor of flavors"
+                  class="flavor-button"
+                  [class.active]="customization.flavor === flavor.value"
+                  (click)="
+                    customization.flavor = flavor.value; onCustomizationChange()
+                  "
+                >
+                  <span class="flavor-emoji">{{ flavor.emoji }}</span>
+                  <span class="flavor-name">{{ flavor.label }}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Baking Soda Toggle -->
+            <div class="customization-group">
+              <label class="toggle-label">
+                <span class="label-emoji">⚪</span> Add Baking Soda/Powder
+                <div class="toggle-switch">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="customization.bakingSoda"
+                    (change)="onCustomizationChange()"
+                  />
+                  <span class="toggle-slider"></span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Milk Toggle -->
+            <div class="customization-group">
+              <label class="toggle-label">
+                <span class="label-emoji">🥛</span> Add Milk
+                <div class="toggle-switch">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="customization.milk"
+                    (change)="onCustomizationChange()"
+                  />
+                  <span class="toggle-slider"></span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Toppings Selection -->
+            <div class="customization-group">
+              <label class="option-label">
+                <span class="label-emoji">✨</span> Toppings
+              </label>
+              <div class="toppings-grid">
+                <button
+                  *ngFor="let topping of toppings"
+                  class="topping-button"
+                  [class.active]="customization.topping === topping.value"
+                  (click)="
+                    customization.topping = topping.value;
+                    onCustomizationChange()
+                  "
+                >
+                  <span class="topping-emoji">{{ topping.emoji }}</span>
+                  <span class="topping-label">{{ topping.label }}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Custom Message -->
+            <div class="customization-group">
+              <label class="option-label">
+                <span class="label-emoji">💌</span> Custom Message
+              </label>
+              <textarea
+                [(ngModel)]="customization.message"
+                (change)="onCustomizationChange()"
+                class="message-textarea"
+                placeholder="Add a special message (max 50 chars)..."
+                maxlength="50"
+              ></textarea>
+              <small class="char-count"
+                >{{ customization.message.length }}/50 characters</small
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Cake Preview & Price -->
+        <div class="col-lg-6" data-aos="fade-left">
+          <div class="preview-section">
+            <!-- Animated Character -->
+            <div class="animated-character">
+              <div class="chef-container">
+                <div class="chef" [class]="animationState">
+                  <div class="chef-head">👨‍🍳</div>
+                  <div class="chef-hands">
+                    <span class="hand-left">👐</span>
+                    <span class="hand-right">👐</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cake Display (3D WebGL) -->
+            <div class="cake-preview-container">
+              <app-cake-3d-viewer
+                [cakeConfig]="cake3DConfig"
+              ></app-cake-3d-viewer>
+
+              <!-- Process Indicator -->
+              <div class="baking-process">
+                <div class="process-step" [class.active]="customization.flour">
+                  <span class="step-icon">🌾</span>
+                  <span class="step-label">Flour</span>
+                </div>
+                <div class="process-step" [class.active]="customization.flavor">
+                  <span class="step-icon">{{ getFlavorEmoji() }}</span>
+                  <span class="step-label">Flavor</span>
+                </div>
+                <div
+                  class="process-step"
+                  [class.active]="customization.topping !== 'none'"
+                >
+                  <span class="step-icon">{{ getToppingEmoji() }}</span>
+                  <span class="step-label">Topping</span>
+                </div>
+                <div
+                  class="process-step"
+                  [class.active]="customization.message"
+                >
+                  <span class="step-icon">💌</span>
+                  <span class="step-label">Message</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="price-breakdown">
+              <h3 class="breakdown-title">💰 Price Breakdown</h3>
+              <div class="price-items">
+                <div class="price-item">
+                  <span>Base Cake</span>
+                  <span>₹{{ priceBreakdown.base }}</span>
+                </div>
+                <div class="price-item" *ngIf="priceBreakdown.shape > 0">
+                  <span>{{ getShapeLabel() }} Shape</span>
+                  <span>₹{{ priceBreakdown.shape }}</span>
+                </div>
+                <div class="price-item" *ngIf="priceBreakdown.flour > 0">
+                  <span
+                    >{{
+                      customization.flour === "ragi" ? "Ragi" : "Wheat"
+                    }}
+                    Flour</span
+                  >
+                  <span>₹{{ priceBreakdown.flour }}</span>
+                </div>
+                <div class="price-item" *ngIf="priceBreakdown.topping > 0">
+                  <span>Topping</span>
+                  <span>₹{{ priceBreakdown.topping }}</span>
+                </div>
+                <div class="price-item" *ngIf="priceBreakdown.message > 0">
+                  <span>Custom Message</span>
+                  <span>₹{{ priceBreakdown.message }}</span>
+                </div>
+              </div>
+              <div class="price-total">
+                <span>TOTAL</span>
+                <span class="total-amount">₹{{ priceBreakdown.total }}</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn btn-warning" (click)="resetCustomization()">
+                🔄 Reset
+              </button>
+              <button class="btn btn-gold" (click)="addToCart()">
+                🛒 Add to Cart
+              </button>
+              <button class="btn btn-success" (click)="buyNow()">
+                💳 Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

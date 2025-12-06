@@ -75,7 +75,6 @@
       <div
         *ngFor="let venture of ventures; let i = index"
         class="venture-card-wrapper"
-        [class.coming-soon]="venture.status === 'coming-soon'"
         [style.--card-delay]="i * 100 + 'ms'"
         data-aos="fade-up"
       >
@@ -85,24 +84,21 @@
             <div class="card-front">
               <div class="card-icon">{{ venture.icon }}</div>
               <h3 class="card-title">{{ venture.shortName }}</h3>
-              <p class="card-status" *ngIf="venture.status === 'coming-soon'">
-                COMING SOON
-              </p>
             </div>
 
             <!-- Back of card -->
             <div class="card-back">
               <p class="card-description">{{ venture.description }}</p>
               <button
-                *ngIf="venture.status !== 'coming-soon'"
                 class="btn btn-sm btn-gold"
                 (click)="navigateToVenture(venture.route)"
               >
-                Learn More →
+                {{
+                  venture.shortName === "Stonecrust Atelier"
+                    ? "Bake your Cake →"
+                    : "Learn More →"
+                }}
               </button>
-              <span *ngIf="venture.status === 'coming-soon'" class="text-gold">
-                Stay Tuned
-              </span>
             </div>
           </div>
         </div>
