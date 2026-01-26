@@ -10,9 +10,10 @@ interface CakeCustomization {
   flavor: string;
   bakingSoda: boolean;
   milk: boolean;
-  topping: string;
+  toppings: string[]; // Changed to array for multiple selections
   message: string;
   layers: number;
+  weight: string;
 }
 
 interface CakePriceBreakdown {
@@ -39,9 +40,10 @@ export class BakeYourCakeComponent implements OnInit {
     flavor: 'vanilla',
     bakingSoda: true,
     milk: true,
-    topping: 'none',
+    toppings: [],
     message: '',
     layers: 1,
+    weight: '1',
   };
 
   cake3DConfig: Cake3DConfig = {
@@ -82,6 +84,13 @@ export class BakeYourCakeComponent implements OnInit {
     { value: 'pista', label: 'Pista', emoji: '🌿' },
   ];
 
+  weights = [
+    { value: '0.5', label: '0.5 kg' },
+    { value: '1', label: '1 kg' },
+    { value: '1.5', label: '1.5 kg' },
+    { value: '2', label: '2 kg' },
+  ];
+
   priceBreakdown: CakePriceBreakdown = {
     base: 399,
     shape: 0,
@@ -116,16 +125,11 @@ export class BakeYourCakeComponent implements OnInit {
         : this.customization.flour === 'wheat'
         ? 25
         : 0;
+    // Calculate topping price based on number of selected toppings
     this.priceBreakdown.topping =
-      this.customization.topping === 'none'
+      this.customization.toppings.length === 0
         ? 0
-        : this.customization.topping === 'pista'
-        ? 150
-        : this.customization.topping === 'almond'
-        ? 120
-        : this.customization.topping === 'cashew'
-        ? 100
-        : 80;
+        : this.customization.toppings.length * 50; // 50 per topping
     this.priceBreakdown.message =
       this.customization.message.length > 0 ? 50 : 0;
     this.priceBreakdown.total =
@@ -144,11 +148,16 @@ export class BakeYourCakeComponent implements OnInit {
   }
 
   update3DCake() {
+    // Create blended topping string from selected toppings
+    const toppingValue =
+      this.customization.toppings.length === 0
+        ? 'none'
+        : this.customization.toppings.join(',');
     this.cake3DConfig = {
       shape: this.customization.shape as any,
       flour: this.customization.flour as any,
       flavor: this.customization.flavor as any,
-      topping: this.customization.topping as any,
+      topping: toppingValue as any,
       layers: this.customization.layers,
       message: this.customization.message,
     };
@@ -170,9 +179,10 @@ export class BakeYourCakeComponent implements OnInit {
       flavor: 'vanilla',
       bakingSoda: true,
       milk: true,
-      topping: 'none',
+      toppings: [],
       message: '',
       layers: 1,
+      weight: '1',
     };
     this.updatePrice();
     this.update3DCake();
@@ -187,8 +197,8 @@ export class BakeYourCakeComponent implements OnInit {
     classes.push(`shape-${this.customization.shape}`);
     classes.push(`flour-${this.customization.flour}`);
     classes.push(`flavor-${this.customization.flavor}`);
-    if (this.customization.topping !== 'none') {
-      classes.push(`topping-${this.customization.topping}`);
+    if (this.customization.toppings.length > 0) {
+      classes.push(`topping-mixed`);
     }
     if (this.animationState === 'baking') {
       classes.push('baking-animation');
@@ -231,10 +241,27 @@ export class BakeYourCakeComponent implements OnInit {
   }
 
   getToppingEmoji() {
-    const topping = this.toppings.find(
-      (t) => t.value === this.customization.topping
-    );
-    return topping ? topping.emoji : '🎂';
+    if (this.customization.toppings.length === 0) {
+      return '🎂';
+    }
+    return this.customization.toppings.length > 1
+      ? '✨'
+      : this.toppings.find((t) => t.value === this.customization.toppings[0])
+          ?.emoji || '🎂';
+  }
+
+  toggleTopping(value: string) {
+    if (value === 'none') {
+      this.customization.toppings = [];
+    } else {
+      const idx = this.customization.toppings.indexOf(value);
+      if (idx > -1) {
+        this.customization.toppings.splice(idx, 1);
+      } else {
+        this.customization.toppings.push(value);
+      }
+    }
+    this.onCustomizationChange();
   }
 
   rollCake() {

@@ -20,9 +20,12 @@
 
             <!-- Shape Selection -->
             <div class="customization-group">
-              <label class="option-label">
-                <span class="label-emoji">⭕</span> Cake Shape
-              </label>
+              <div class="step-header">
+                <span class="step-number">Step 1</span>
+                <label class="option-label">
+                  <span class="label-emoji">⭕</span> Cake Shape
+                </label>
+              </div>
               <div class="shape-grid">
                 <div
                   *ngFor="let shape of shapes"
@@ -32,7 +35,6 @@
                     customization.shape = shape.value; onCustomizationChange()
                   "
                 >
-                  <span class="shape-emoji">{{ shape.emoji }}</span>
                   <span class="shape-label">{{ shape.label }}</span>
                 </div>
               </div>
@@ -40,25 +42,34 @@
 
             <!-- Flour Selection -->
             <div class="customization-group">
-              <label class="option-label">
-                <span class="label-emoji">🌾</span> Flour Type
-              </label>
-              <select
-                [(ngModel)]="customization.flour"
-                (change)="onCustomizationChange()"
-                class="custom-select"
-              >
-                <option *ngFor="let flour of flours" [value]="flour.value">
+              <div class="step-header">
+                <span class="step-number">Step 2</span>
+                <label class="option-label">
+                  <span class="label-emoji">🌾</span> Flour Type
+                </label>
+              </div>
+              <div class="flour-buttons">
+                <button
+                  *ngFor="let flour of flours"
+                  class="flour-button"
+                  [class.active]="customization.flour === flour.value"
+                  (click)="
+                    customization.flour = flour.value; onCustomizationChange()
+                  "
+                >
                   {{ flour.label }}
-                </option>
-              </select>
+                </button>
+              </div>
             </div>
 
             <!-- Layers Selection -->
             <div class="customization-group">
-              <label class="option-label">
-                <span class="label-emoji">📚</span> Cake Layers
-              </label>
+              <div class="step-header">
+                <span class="step-number">Step 3</span>
+                <label class="option-label">
+                  <span class="label-emoji">📚</span> Cake Layers
+                </label>
+              </div>
               <div class="layers-buttons">
                 <button
                   *ngFor="let layer of [1, 2, 3]"
@@ -73,26 +84,46 @@
               </div>
             </div>
 
-            <!-- Sugar Toggle -->
+            <!-- Ingredients Section -->
             <div class="customization-group">
-              <label class="toggle-label">
-                <span class="label-emoji">🍬</span> Add Sugar
-                <div class="toggle-switch">
+              <div class="step-header">
+                <span class="step-number">Step 4</span>
+                <label class="option-label">
+                  <span class="label-emoji">🥘</span> Ingredients
+                </label>
+              </div>
+              <div class="ingredients-grid">
+                <label class="checkbox-item">
                   <input
                     type="checkbox"
                     [(ngModel)]="customization.sugar"
                     (change)="onCustomizationChange()"
                   />
-                  <span class="toggle-slider"></span>
-                </div>
-              </label>
-            </div>
-
-            <!-- Egg Type Toggle -->
-            <div class="customization-group">
-              <label class="toggle-label">
-                <span class="label-emoji">🥚</span> Egg Type
-                <div class="toggle-switch">
+                  <span class="checkbox-label"
+                    ><span class="emoji">🍬</span> Add Sugar</span
+                  >
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="customization.milk"
+                    (change)="onCustomizationChange()"
+                  />
+                  <span class="checkbox-label"
+                    ><span class="emoji">🥛</span> Add Milk</span
+                  >
+                </label>
+                <label class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="customization.bakingSoda"
+                    (change)="onCustomizationChange()"
+                  />
+                  <span class="checkbox-label"
+                    ><span class="emoji">⚪</span> Baking Soda</span
+                  >
+                </label>
+                <label class="checkbox-item">
                   <input
                     type="checkbox"
                     [checked]="customization.eggType === 'egg'"
@@ -102,19 +133,43 @@
                       onCustomizationChange()
                     "
                   />
-                  <span class="toggle-slider"></span>
-                  <span class="toggle-label-text">{{
-                    customization.eggType === "egg" ? "With Egg" : "Eggless"
-                  }}</span>
-                </div>
-              </label>
+                  <span class="checkbox-label"
+                    ><span class="emoji">🥚</span> With Egg</span
+                  >
+                </label>
+              </div>
+            </div>
+
+            <!-- Weight Selection -->
+            <div class="customization-group">
+              <div class="step-header">
+                <span class="step-number">Step 5</span>
+                <label class="option-label">
+                  <span class="label-emoji">⚖️</span> Cake Weight
+                </label>
+              </div>
+              <div class="weight-buttons">
+                <button
+                  *ngFor="let wt of weights"
+                  class="weight-button"
+                  [class.active]="customization.weight === wt.value"
+                  (click)="
+                    customization.weight = wt.value; onCustomizationChange()
+                  "
+                >
+                  {{ wt.label }}
+                </button>
+              </div>
             </div>
 
             <!-- Flavor Selection -->
             <div class="customization-group">
-              <label class="option-label">
-                <span class="label-emoji">🍊</span> Flavor
-              </label>
+              <div class="step-header">
+                <span class="step-number">Step 6</span>
+                <label class="option-label">
+                  <span class="label-emoji">🍊</span> Flavor
+                </label>
+              </div>
               <div class="flavor-grid">
                 <button
                   *ngFor="let flavor of flavors"
@@ -130,50 +185,22 @@
               </div>
             </div>
 
-            <!-- Baking Soda Toggle -->
-            <div class="customization-group">
-              <label class="toggle-label">
-                <span class="label-emoji">⚪</span> Add Baking Soda/Powder
-                <div class="toggle-switch">
-                  <input
-                    type="checkbox"
-                    [(ngModel)]="customization.bakingSoda"
-                    (change)="onCustomizationChange()"
-                  />
-                  <span class="toggle-slider"></span>
-                </div>
-              </label>
-            </div>
-
-            <!-- Milk Toggle -->
-            <div class="customization-group">
-              <label class="toggle-label">
-                <span class="label-emoji">🥛</span> Add Milk
-                <div class="toggle-switch">
-                  <input
-                    type="checkbox"
-                    [(ngModel)]="customization.milk"
-                    (change)="onCustomizationChange()"
-                  />
-                  <span class="toggle-slider"></span>
-                </div>
-              </label>
-            </div>
-
             <!-- Toppings Selection -->
             <div class="customization-group">
-              <label class="option-label">
-                <span class="label-emoji">✨</span> Toppings
-              </label>
+              <div class="step-header">
+                <span class="step-number">Step 7</span>
+                <label class="option-label">
+                  <span class="label-emoji">✨</span> Toppings (Multiple Select)
+                </label>
+              </div>
               <div class="toppings-grid">
                 <button
                   *ngFor="let topping of toppings"
                   class="topping-button"
-                  [class.active]="customization.topping === topping.value"
-                  (click)="
-                    customization.topping = topping.value;
-                    onCustomizationChange()
+                  [class.active]="
+                    customization.toppings.includes(topping.value)
                   "
+                  (click)="toggleTopping(topping.value)"
                 >
                   <span class="topping-emoji">{{ topping.emoji }}</span>
                   <span class="topping-label">{{ topping.label }}</span>
@@ -183,9 +210,12 @@
 
             <!-- Custom Message -->
             <div class="customization-group">
-              <label class="option-label">
-                <span class="label-emoji">💌</span> Custom Message
-              </label>
+              <div class="step-header">
+                <span class="step-number">Step 8</span>
+                <label class="option-label">
+                  <span class="label-emoji">💌</span> Custom Message
+                </label>
+              </div>
               <textarea
                 [(ngModel)]="customization.message"
                 (change)="onCustomizationChange()"
@@ -234,7 +264,7 @@
                 </div>
                 <div
                   class="process-step"
-                  [class.active]="customization.topping !== 'none'"
+                  [class.active]="customization.toppings.length > 0"
                 >
                   <span class="step-icon">{{ getToppingEmoji() }}</span>
                   <span class="step-label">Topping</span>

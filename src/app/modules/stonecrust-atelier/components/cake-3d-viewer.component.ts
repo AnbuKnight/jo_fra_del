@@ -34,6 +34,13 @@ import { Cake3DService, Cake3DConfig } from '../services/cake-3d.service';
         >
           {{ autoRotate ? '⏸️ Pause' : '▶️ Rotate' }}
         </button>
+        <button
+          class="rotate-btn default-view-btn"
+          (click)="resetToDefault()"
+          title="Reset to default view"
+        >
+          🏠 Default View
+        </button>
       </div>
     </div>
 
@@ -52,6 +59,13 @@ import { Cake3DService, Cake3DConfig } from '../services/cake-3d.service';
                 [class.active]="autoRotate"
               >
                 {{ autoRotate ? '⏸️ Pause' : '▶️ Rotate' }}
+              </button>
+              <button
+                class="rotate-btn default-view-btn"
+                (click)="resetToDefault()"
+                title="Reset to default view"
+              >
+                🏠 Default View
               </button>
             </div>
           </div>
@@ -145,6 +159,15 @@ import { Cake3DService, Cake3DConfig } from '../services/cake-3d.service';
 
         &.active {
           background: linear-gradient(135deg, #f4d03f, #d4af37);
+        }
+
+        &.default-view-btn {
+          background: linear-gradient(135deg, #d4af37, #d4af37);
+          opacity: 0.9;
+
+          &:hover {
+            opacity: 1;
+          }
         }
       }
 
@@ -488,8 +511,8 @@ export class Cake3DViewerComponent
         console.log('No cakeConfig available on init');
       }
 
-      // Start animation
-      this.cakeService.animate();
+      // Start animation with autoRotate state callback
+      this.cakeService.animate(() => this.autoRotate);
     } catch (error) {
       console.error('Failed to initialize 3D cake viewer:', error);
     }
@@ -518,6 +541,15 @@ export class Cake3DViewerComponent
 
   toggleAutoRotate() {
     this.autoRotate = !this.autoRotate;
+  }
+
+  resetToDefault() {
+    if (this.cakeService) {
+      this.cakeService.resetToDefaultView();
+    }
+    if (this.modalCakeService) {
+      this.modalCakeService.resetToDefaultView();
+    }
   }
 
   openModal() {
@@ -571,6 +603,16 @@ export class Cake3DViewerComponent
       );
     });
     this.renderer.appendChild(controls, rotateBtn);
+
+    // Add default view button
+    const defaultViewBtn = this.renderer.createElement('button');
+    this.renderer.addClass(defaultViewBtn, 'rotate-btn');
+    this.renderer.addClass(defaultViewBtn, 'default-view-btn');
+    this.renderer.setProperty(defaultViewBtn, 'innerHTML', '🏠 Default View');
+    this.renderer.setProperty(defaultViewBtn, 'title', 'Reset to default view');
+    this.renderer.listen(defaultViewBtn, 'click', () => this.resetToDefault());
+    this.renderer.appendChild(controls, defaultViewBtn);
+
     this.renderer.appendChild(canvasContainer, controls);
 
     // Append elements

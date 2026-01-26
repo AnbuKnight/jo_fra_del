@@ -47,7 +47,8 @@ export class Cake3DService {
     this.scene.background = new THREE.Color(0x1a1f3a);
 
     this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    this.camera.position.z = 4;
+    this.camera.position.set(0, 2, 4);
+    this.camera.lookAt(0, 0, 0);
 
     if (canvas) {
       this.renderer = new THREE.WebGLRenderer({
@@ -175,16 +176,11 @@ export class Cake3DService {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
 
-    // Rotate heart shape to be horizontal
-    if (config.shape === 'heart') {
-      mesh.rotation.z = Math.PI / 2;
-    }
-
     return mesh;
   }
 
   private createHeartShape(): THREE.BufferGeometry {
-    // Create a proper horizontal heart shape
+    // Create heart shape that extrudes vertically like cylinder/box
     const shape = new THREE.Shape();
     const x = 0,
       y = 0;
@@ -241,12 +237,22 @@ export class Cake3DService {
 
     shape.closePath();
 
+    // Extrude vertically (along Y axis) like cylinder, not Z
     const extrudeSettings = {
       depth: 0.8,
       bevelEnabled: false,
+      steps: 1,
     };
 
-    return new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    // Create extruded geometry
+    const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+    // Rotate 90 degrees around X axis to lay it flat like cylinder
+    geometry.rotateX(-Math.PI / 2);
+    // Center the heart vertically so the top surface is at y=0.4 (same as cylinder height/2)
+    geometry.translate(0, 0.4, 0);
+
+    return geometry;
   }
 
   private heartCurve(): THREE.Curve<THREE.Vector2> {
@@ -277,22 +283,36 @@ export class Cake3DService {
   ): THREE.Group {
     const group = new THREE.Group();
     const hasMessage = config.message && config.message.trim();
+    const hasToppings = config.topping !== 'none';
 
     console.log('createToppingsAndMessage - config:', config);
     console.log('hasMessage:', hasMessage);
     console.log('config.message:', config.message);
     console.log('topLayerYOffset:', topLayerYOffset);
+    console.log('hasToppings:', hasToppings);
 
     // Always add full toppings coverage when topping is selected
-    if (config.topping !== 'none') {
+    if (hasToppings) {
       console.log('Adding full topping coverage');
-      this.addToppingsFull(group, config.topping, topLayerYOffset);
+      this.addToppingsFull(
+        group,
+        config.topping,
+        topLayerYOffset,
+        config.shape
+      );
     }
 
-    // Add message as a separate layer on top of toppings
+    // Add message as a separate layer
+    // If toppings exist, place on top of toppings; otherwise, place on cake surface
     if (hasMessage && config.message) {
       console.log('Adding message text on separate layer:', config.message);
-      this.addMessageText(group, config.message, topLayerYOffset);
+      this.addMessageText(
+        group,
+        config.message,
+        topLayerYOffset,
+        config.shape,
+        hasToppings
+      );
     } else {
       console.log(
         'NOT adding message - hasMessage:',
@@ -308,7 +328,8 @@ export class Cake3DService {
   private addToppingsInCorners(
     group: THREE.Group,
     type: string,
-    topLayerYOffset: number
+    topLayerYOffset: number,
+    shape: string = 'circle'
   ) {
     const colors = {
       cashew: 0xe6a961,
@@ -345,7 +366,10 @@ export class Cake3DService {
           const mesh = new THREE.Mesh(geometry, material);
           const x = corner.x + (i - toppingsPerCorner / 2) * spacing;
           const z = corner.z + (j - toppingsPerCorner / 2) * spacing;
-          const y = topLayerYOffset + 0.5;
+          // For circle/square: top surface at 0.4
+          // For heart: top surface at 0.4 + 0.8 = 1.2
+          const y =
+            shape === 'heart' ? topLayerYOffset + 1.2 : topLayerYOffset + 0.4;
 
           mesh.position.set(x, y, z);
           mesh.castShadow = true;
@@ -359,7 +383,8 @@ export class Cake3DService {
   private addToppingsFull(
     group: THREE.Group,
     type: string,
-    topLayerYOffset: number
+    topLayerYOffset: number,
+    shape: string = 'circle'
   ) {
     const colors = {
       cashew: 0xe6a961,
@@ -368,45 +393,262 @@ export class Cake3DService {
       pista: 0x9acd32,
     };
 
-    const color = colors[type as keyof typeof colors] || 0xd4af37;
+    // Parse comma-separated toppings into array of colors
+    const toppingList = type
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t && t !== 'none');
+
+    // Get array of colors for selected toppings
+    const toppingColors = toppingList
+      .map((topping) => colors[topping as keyof typeof colors] || 0xd4af37)
+      .filter((c) => c); // Filter out undefined
+
+    console.log('addToppingsFull - parsed toppings:', toppingList);
+    console.log(
+      'addToppingsFull - topping colors:',
+      toppingColors.map((c) => '0x' + c.toString(16).toUpperCase())
+    );
+
     const toppingSize = 0.1;
     const spacing = 0.25;
 
+    // Helper function to get random topping color
+    const getRandomToppingColor = (): number => {
+      if (toppingColors.length === 0) return 0xd4af37; // Default gold if no toppings
+      if (toppingColors.length === 1) return toppingColors[0];
+      return toppingColors[Math.floor(Math.random() * toppingColors.length)];
+    };
+
+    console.log('=== addToppingsFull DEBUG ===');
+    console.log('Shape:', shape);
+    console.log('topLayerYOffset:', topLayerYOffset);
+
+    // Helper function to check if point is inside heart shape
+    // The heart shape in the 3D scene has been rotated -90 degrees on X axis
+    // So we need to check against the original heart shape coordinates
+    const isInsideHeart = (x: number, z: number): boolean => {
+      // After rotation, z maps to original Y coordinate of heart
+      // The heart's original Y ranges from -1.2 to 0.9 (in units of scale=0.6)
+      // After rotation and translation, these become z coordinates
+
+      // In 3D space after rotation:
+      // Heart bottom point (was y=-1.2) → z ≈ -0.4 (after translate 0.4)
+      // Heart top point (was y=0.9) → z ≈ 1.3 (after translate 0.4)
+
+      const absX = Math.abs(x);
+
+      // Map z back to original heart Y coordinate
+      // z ranges from -0.4 to 1.3 in world space
+      // We want to check against original shape which uses scale = 0.6
+      const heartY = z - 0.4; // Reverse the translation
+      const scale = 0.6;
+
+      console.log(
+        `Heart boundary check: x=${x.toFixed(2)}, z=${z.toFixed(
+          2
+        )}, heartY=${heartY.toFixed(2)}`
+      );
+
+      // Bottom point of heart (narrow)
+      if (heartY < -1.1 * scale) {
+        const dist = Math.sqrt(absX * absX + (heartY + 1.2 * scale) ** 2);
+        const isInside = dist <= 0.15;
+        console.log(
+          `  Bottom point: dist=${dist.toFixed(3)}, isInside=${isInside}`
+        );
+        return isInside;
+      }
+
+      // Upper lobes area
+      if (heartY >= -0.3 * scale) {
+        // Left lobe
+        if (x < -0.5 * scale) {
+          let isInside = absX <= 1.1 * scale && heartY <= 0.9 * scale;
+
+          // Row 3 adjustment (z=0.25, heartY≈-0.15): expand to 7 dots
+          if (heartY > -0.2 && heartY < 0.0) {
+            isInside = absX <= 0.8 && heartY <= 0.9 * scale; // Allow wider range
+            console.log(`  Left lobe Row 3 adjusted: isInside=${isInside}`);
+          }
+          // Row 5 adjustment (z=0.75, heartY≈0.35): restrict to 3 center dots
+          else if (heartY >= 0.3 && heartY < 0.5) {
+            isInside = absX <= 0.25 && heartY <= 0.9 * scale; // Restrict to center
+            console.log(`  Left lobe Row 5 adjusted: isInside=${isInside}`);
+          } else {
+            console.log(`  Left lobe: isInside=${isInside}`);
+          }
+          return isInside;
+        }
+        // Right lobe
+        if (x > 0.5 * scale) {
+          let isInside = absX <= 1.1 * scale && heartY <= 0.9 * scale;
+
+          // Row 3 adjustment (z=0.25, heartY≈-0.15): expand to 7 dots
+          if (heartY > -0.2 && heartY < 0.0) {
+            isInside = absX <= 0.8 && heartY <= 0.9 * scale; // Allow wider range
+            console.log(`  Right lobe Row 3 adjusted: isInside=${isInside}`);
+          }
+          // Row 5 adjustment (z=0.75, heartY≈0.35): restrict to 3 center dots
+          else if (heartY >= 0.3 && heartY < 0.5) {
+            isInside = absX <= 0.25 && heartY <= 0.9 * scale; // Restrict to center
+            console.log(`  Right lobe Row 5 adjusted: isInside=${isInside}`);
+          } else {
+            console.log(`  Right lobe: isInside=${isInside}`);
+          }
+          return isInside;
+        }
+        // Center between lobes
+        let isInside = absX <= 0.5 * scale && heartY <= 0.9 * scale;
+
+        // Row 3 adjustment (z=0.25, heartY≈-0.15): expand to 7 dots
+        if (heartY > -0.2 && heartY < 0.0) {
+          isInside = absX <= 0.8 && heartY <= 0.9 * scale; // Allow wider range
+          console.log(`  Center Row 3 adjusted: isInside=${isInside}`);
+        }
+        // Row 5 adjustment (z=0.75, heartY≈0.35): restrict to 3 center dots
+        else if (heartY >= 0.3 && heartY < 0.5) {
+          isInside = absX <= 0.25 && heartY <= 0.9 * scale; // Restrict to center
+          console.log(`  Center Row 5 adjusted: isInside=${isInside}`);
+        } else {
+          console.log(`  Center: isInside=${isInside}`);
+        }
+        return isInside;
+      }
+
+      // Middle section
+      // For row 3 (z=0.25, heartY≈-0.15): expand width to add 2 more dots (9→7 or 5→7)
+      // For row 5 (z=0.75, heartY≈0.35): restrict width to show only 3 center dots
+      let maxWidth = 1.1 * scale * (1 - (heartY + 0.3 * scale) / (1.2 * scale));
+
+      console.log(
+        `  Before adjustments: heartY=${heartY.toFixed(
+          3
+        )}, maxWidth=${maxWidth.toFixed(3)}`
+      );
+
+      // Row 3 adjustment (z≈0.25, heartY around -0.15): expand to 7 dots
+      // Need to allow x from -0.75 to 0.75 (absX <= 0.75)
+      if (heartY > -0.2 && heartY < 0.0) {
+        maxWidth = 0.8; // Allow x range [-0.75, 0.75] to get 7 dots
+        console.log(
+          `  Row 3 (z=0.25) adjusted: heartY=${heartY.toFixed(
+            3
+          )}, maxWidth=${maxWidth.toFixed(3)}`
+        );
+      }
+
+      // Row 5 adjustment (z≈0.75, heartY around 0.35): restrict to only 3 center dots
+      // This means allowing x in range [-0.25, 0.25] approximately (absX <= 0.25)
+      if (heartY >= 0.3 && heartY < 0.5) {
+        maxWidth = 0.25; // Only allow center 3 dots at x=-0.25, 0.00, 0.25
+        console.log(
+          `  Row 5 (z=0.75) adjusted: heartY=${heartY.toFixed(
+            3
+          )}, maxWidth=${maxWidth.toFixed(3)}`
+        );
+      }
+
+      const isInside = absX <= maxWidth;
+      console.log(
+        `  Middle: maxWidth=${maxWidth.toFixed(3)}, isInside=${isInside}`
+      );
+      return isInside;
+    };
+
     // Fill entire top surface in a grid pattern
     const gridCount = 5;
+    let toppingCount = 0;
+    const toppingsByRow: { [key: string]: number[] } = {};
+
     for (let i = -gridCount; i <= gridCount; i++) {
       for (let j = -gridCount; j <= gridCount; j++) {
         const x = i * spacing;
         const z = j * spacing;
         const distance = Math.sqrt(x * x + z * z);
 
-        // Only place toppings within a circular area on top of cake
-        if (distance <= 1.1) {
+        // Check if point should have topping based on shape
+        let shouldAdd = false;
+
+        if (shape === 'heart') {
+          shouldAdd = isInsideHeart(x, z);
+        } else if (shape === 'square') {
+          // Square: check if within bounds
+          shouldAdd = Math.abs(x) <= 1.1 && Math.abs(z) <= 1.1;
+        } else {
+          // Circle: use distance
+          shouldAdd = distance <= 1.1;
+        }
+
+        if (shouldAdd) {
+          toppingCount++;
           const geometry = new THREE.SphereGeometry(toppingSize, 16, 16);
+          // Each dot gets randomly assigned one of the selected toppings' colors
+          const dotColor = getRandomToppingColor();
           const material = new THREE.MeshStandardMaterial({
-            color: color,
+            color: dotColor,
             metalness: 0.3,
             roughness: 0.6,
           });
 
           const mesh = new THREE.Mesh(geometry, material);
-          const y = topLayerYOffset + 0.5;
+          // For circle/square: top surface at 0.4
+          // For heart: top surface at 0.4 + 0.8 = 1.2
+          const y =
+            shape === 'heart' ? topLayerYOffset + 1.2 : topLayerYOffset + 0.4;
 
           mesh.position.set(x, y, z);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
           group.add(mesh);
+
+          // Track toppings by z-row for debugging
+          if (shape === 'heart') {
+            const rowKey = `z=${z.toFixed(2)}`;
+            if (!toppingsByRow[rowKey]) {
+              toppingsByRow[rowKey] = [];
+            }
+            toppingsByRow[rowKey].push(x);
+          }
         }
       }
     }
+
+    if (shape === 'heart') {
+      console.log('=== HEART SHAPE TOPPINGS BY ROW ===');
+      const sortedRows = Object.keys(toppingsByRow).sort((a, b) => {
+        const zA = parseFloat(a.split('=')[1]);
+        const zB = parseFloat(b.split('=')[1]);
+        return zA - zB;
+      });
+      sortedRows.forEach((row, idx) => {
+        console.log(
+          `Row ${idx + 1} (${row}): ${
+            toppingsByRow[row].length
+          } dots at x=${toppingsByRow[row].map((x) => x.toFixed(2)).join(', ')}`
+        );
+      });
+      console.log(`Total toppings: ${toppingCount}`);
+    }
+
+    console.log(`Total toppings added: ${toppingCount}`);
+    console.log('=== END DEBUG ===');
   }
 
   private addMessageText(
     group: THREE.Group,
     message: string,
-    topLayerYOffset: number
+    topLayerYOffset: number,
+    shape: string = 'circle',
+    hasToppings: boolean = false
   ) {
-    console.log('addMessageText called with message:', message);
+    console.log(
+      'addMessageText called with message:',
+      message,
+      'shape:',
+      shape
+    );
+    console.log('topLayerYOffset:', topLayerYOffset);
 
     // Create a canvas texture for the text
     const canvas = document.createElement('canvas');
@@ -512,10 +754,39 @@ export class Cake3DService {
     });
 
     const mesh = new THREE.Mesh(geometry, material);
-    // Position message on a separate layer above the toppings
-    // Toppings are at y: topLayerYOffset + 0.5
-    // Message layer should be above that
-    mesh.position.set(0, topLayerYOffset + 0.8, 0);
+
+    // Position message based on whether toppings are present
+    // If NO toppings: place message on cake surface (where toppings would be)
+    // If toppings exist: place message above toppings (0.4 units higher)
+    let messageY: number;
+    const zFightOffset = 0.01; // Small offset to prevent z-fighting with cake surface
+
+    if (hasToppings) {
+      // Place on top of toppings (0.4 units above toppings)
+      // Toppings are at: circle/square = 0.4, heart = 1.2
+      messageY =
+        shape === 'heart'
+          ? topLayerYOffset + 1.6 + zFightOffset
+          : topLayerYOffset + 0.8 + zFightOffset;
+    } else {
+      // Place on cake surface (where toppings would be)
+      // Surface is at: circle/square = 0.4, heart = 1.2
+      // Add small offset above surface to prevent z-fighting
+      messageY =
+        shape === 'heart'
+          ? topLayerYOffset + 1.2 + zFightOffset
+          : topLayerYOffset + 0.4 + zFightOffset;
+    }
+
+    console.log('Message mesh positioning:');
+    console.log('  Shape:', shape);
+    console.log('  hasToppings:', hasToppings);
+    console.log('  topLayerYOffset:', topLayerYOffset);
+    console.log('  Message Y position:', messageY);
+    console.log('  Z-fight offset applied:', zFightOffset);
+    console.log('  Rotation: x = -Math.PI/2 (horizontal facing up)');
+
+    mesh.position.set(0, messageY, 0);
     mesh.rotation.x = -Math.PI / 2; // Face up
 
     console.log('Message mesh created at position:', mesh.position);
@@ -553,20 +824,67 @@ export class Cake3DService {
     );
   }
 
-  animate(onFrame?: () => void) {
-    this.animationId = requestAnimationFrame(() => this.animate(onFrame));
+  private blendMultipleColors(colors: number[]): number {
+    // Average multiple hex colors together
+    if (colors.length === 0) return 0xd4af37;
+    if (colors.length === 1) return colors[0];
 
-    // Rotate cake slowly
-    this.cakeMeshes.forEach((mesh) => {
-      mesh.rotation.y += 0.005;
+    let sumR = 0;
+    let sumG = 0;
+    let sumB = 0;
+
+    colors.forEach((color) => {
+      sumR += (color >> 16) & 255;
+      sumG += (color >> 8) & 255;
+      sumB += color & 255;
     });
 
-    if (this.toppingsMesh) {
-      this.toppingsMesh.rotation.y += 0.005;
+    const count = colors.length;
+    const avgR = Math.round(sumR / count);
+    const avgG = Math.round(sumG / count);
+    const avgB = Math.round(sumB / count);
+
+    return (avgR << 16) | (avgG << 8) | avgB;
+  }
+
+  private initialRotationX = 0.3; // Store initial rotation for default view
+  private initialRotationY = 0;
+
+  animate(isAutoRotateEnabled?: () => boolean, onFrame?: () => void) {
+    this.animationId = requestAnimationFrame(() =>
+      this.animate(isAutoRotateEnabled, onFrame)
+    );
+
+    // Only auto-rotate if enabled
+    const shouldAutoRotate = isAutoRotateEnabled ? isAutoRotateEnabled() : true;
+    if (shouldAutoRotate) {
+      // Rotate cake slowly
+      this.cakeMeshes.forEach((mesh) => {
+        mesh.rotation.y += 0.005;
+      });
+
+      if (this.toppingsMesh) {
+        this.toppingsMesh.rotation.y += 0.005;
+      }
     }
 
     if (onFrame) onFrame();
     this.renderer.render(this.scene, this.camera);
+  }
+
+  resetToDefaultView() {
+    // Reset rotation to initial state
+    this.cakeMeshes.forEach((mesh) => {
+      mesh.rotation.x = this.initialRotationX;
+      mesh.rotation.y = this.initialRotationY;
+      mesh.rotation.z = 0;
+    });
+
+    if (this.toppingsMesh) {
+      this.toppingsMesh.rotation.x = this.initialRotationX;
+      this.toppingsMesh.rotation.y = this.initialRotationY;
+      this.toppingsMesh.rotation.z = 0;
+    }
   }
 
   stopAnimation() {
