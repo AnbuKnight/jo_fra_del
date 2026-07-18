@@ -1,0 +1,59 @@
+<div class="gd-page container">
+  <h2>Share a Good Deed</h2>
+
+  <div class="page-actions">
+    <button class="btn btn-back" (click)="back()">← Atelier Home</button>
+  </div>
+
+  <p class="disclaimer">
+    Please do not include illegal, adult, abusive, or offensive language.
+    Submissions containing such content will be ignored. For the sake of
+    children and our community, use appropriate language and keep your story
+    kind and respectful.
+  </p>
+
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="gd-form card">
+    <div class="form-grid">
+      <div class="field">
+        <label>Name *</label>
+        <input name="name" ngModel required />
+      </div>
+
+      <div class="field">
+        <label>Email *</label>
+        <input name="email" ngModel required email />
+      </div>
+
+      <div class="field full">
+        <label>Good Deed Story *</label>
+        <textarea name="story" ngModel required rows="6"></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="left-actions">
+        <button type="button" class="btn btn-back" (click)="back()">
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary-gold"
+          (click)="viewStories()"
+        >
+          View Stories
+        </button>
+      </div>
+      <div class="right-actions">
+        <button
+          type="submit"
+          class="btn btn-primary-gold"
+          [disabled]="submitting || f.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="toast" *ngIf="showToast">{{ toastMessage }}</div>
+</div>

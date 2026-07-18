@@ -1,0 +1,26 @@
+<div class="modal-backdrop" (click)="onClose()"></div>
+<div class="modal-card" data-aos="zoom-in">
+  <header>
+    <h3>{{ story?.name }}</h3>
+    <small class="email">{{ story?.email }}</small>
+  </header>
+  <main>
+    <p class="full-story">{{ story?.story }}</p>
+  </main>
+  <footer>
+    <div class="rating">
+      <div class="cakes">
+        <ng-container *ngFor="let n of [1, 2, 3, 4, 5]">
+          <span
+            class="cake"
+            [class.active]="n <= selectedCakes"
+            (click)="selectCakes(n)"
+            >🍰</span
+          >
+        </ng-container>
+      </div>
+      <div class="count">Total: {{ story?.ratingCount || 0 }}</div>
+    </div>
+    <button class="btn btn-outline-gold" (click)="onClose()">Close</button>
+  </footer>
+</div>

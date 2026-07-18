@@ -58,6 +58,23 @@
           box-shadow: 0 15px 40px rgba(244, 208, 63, 0.4);
         }
       }
+
+      &.btn-express {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(244, 208, 63, 0.12)
+        );
+        color: $light-gold;
+        border: 1px solid rgba($accent-gold, 0.14);
+        box-shadow: 0 6px 18px rgba(212, 175, 55, 0.06);
+
+        &:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 18px 50px rgba(212, 175, 55, 0.22);
+          color: $accent-gold;
+        }
+      }
     }
   }
 }

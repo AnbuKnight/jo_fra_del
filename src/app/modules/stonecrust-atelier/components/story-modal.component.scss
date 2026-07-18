@@ -1,0 +1,92 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 10000;
+}
+
+.modal-card {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(
+    135deg,
+    rgba(10, 14, 39, 0.98),
+    rgba(26, 31, 58, 0.98)
+  );
+  padding: 20px;
+  max-width: 720px;
+  width: 92%;
+  border-radius: 14px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.08);
+  z-index: 10001;
+}
+
+.modal-card header h3 {
+  margin: 0 0 6px 0;
+  color: var(--text-light);
+}
+
+.modal-card header .email {
+  color: var(--text-muted);
+  display: block;
+  margin-top: 4px;
+}
+
+.modal-card main .full-story {
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+.modal-card footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.cakes {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.cake {
+  cursor: pointer;
+  font-size: 28px;
+  opacity: 0.45;
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.cake:hover {
+  transform: translateY(-4px) scale(1.08);
+}
+
+.cake.active {
+  opacity: 1;
+  filter: drop-shadow(0 6px 12px rgba(212, 175, 55, 0.25));
+}
+
+.count {
+  color: var(--text-muted);
+  margin-left: 12px;
+}
+
+.modal-card .btn-outline-gold {
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  background: transparent;
+  color: var(--accent-gold);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.modal-card .btn-outline-gold:hover {
+  background: rgba(212, 175, 55, 0.06);
+  color: var(--light-gold);
+}

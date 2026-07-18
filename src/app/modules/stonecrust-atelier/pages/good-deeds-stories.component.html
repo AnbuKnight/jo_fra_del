@@ -1,0 +1,69 @@
+<div class="gd-stories container">
+  <h2>Community Stories</h2>
+
+  <div class="page-actions">
+    <button class="btn btn-back" (click)="goHome()">← Atelier Home</button>
+    <button class="btn btn-primary-gold" (click)="goToSubmit()">
+      Share a Good Deed
+    </button>
+  </div>
+
+  <section class="winners">
+    <h3>Previous Week Winners</h3>
+    <div class="winner-grid">
+      <div *ngFor="let w of winners" class="winner-card" data-aos="fade-up">
+        <div class="winner-visual">🍰</div>
+        <div class="winner-body">
+          <h4>{{ w.name }}</h4>
+          <small class="muted">{{ svc.maskEmail(w.email) }}</small>
+          <p class="excerpt">{{ preview(w.story) }}</p>
+          <div class="meta">
+            <div class="left">
+              <span class="cakes">🍰 {{ w.ratingCount }}</span>
+            </div>
+            <div class="right">
+              <button class="btn btn-sm btn-outline-gold" (click)="open(w)">
+                View Story
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="community">
+    <h3>All Stories</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Story Preview</th>
+          <th>View</th>
+          <th>🍰</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of others">
+          <td>{{ s.name }}</td>
+          <td>{{ svc.maskEmail(s.email) }}</td>
+          <td>{{ preview(s.story) }}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-gold" (click)="open(s)">
+              👁️ View
+            </button>
+          </td>
+          <td>{{ s.ratingCount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <app-story-modal
+    *ngIf="selected"
+    [story]="selected"
+    (close)="close()"
+    (rate)="onRate($event)"
+  ></app-story-modal>
+</div>

@@ -1,0 +1,145 @@
+.gd-page {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 18px;
+}
+
+.disclaimer {
+  font-size: 0.95rem;
+  color: var(--primary-black);
+  background: linear-gradient(
+    90deg,
+    rgba(244, 208, 63, 0.14),
+    rgba(212, 175, 55, 0.06)
+  );
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.01)
+  );
+  border: 1px solid rgba(212, 175, 55, 0.06);
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.form-grid .field {
+  display: flex;
+  flex-direction: column;
+}
+.form-grid .field.full {
+  grid-column: 1 / -1;
+}
+
+.gd-form input,
+.gd-form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  background: rgba(10, 14, 39, 0.6);
+  color: var(--text-light);
+}
+.gd-form label {
+  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+.actions .btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+}
+
+.btn-back {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-light);
+  padding: 8px 14px;
+}
+
+.btn-secondary-gold {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.12),
+    rgba(244, 208, 63, 0.08)
+  );
+  border: 1px solid rgba(212, 175, 55, 0.14);
+  color: var(--primary-black);
+  padding: 8px 14px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 18px;
+  z-index: 12000;
+  background: linear-gradient(90deg, var(--accent-gold), var(--light-gold));
+  color: var(--primary-black);
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.18);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.gd-form input,
+.gd-form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  background: rgba(10, 14, 39, 0.6);
+  color: var(--text-light);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4) inset;
+}
+.gd-form input::placeholder,
+.gd-form textarea::placeholder {
+  color: rgba(232, 232, 232, 0.45);
+}
+.gd-form input:focus,
+.gd-form textarea:focus {
+  outline: none;
+  border-color: rgba(212, 175, 55, 0.36);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.06);
+}
+.gd-form label {
+  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+.actions .btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+}
+
+.actions .btn + .btn {
+  margin-left: 8px;
+}

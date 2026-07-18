@@ -120,7 +120,7 @@ export class StonecrusatielierComponent implements OnInit {
 
   orderNow(product: Product) {
     alert(
-      `Thank you for your interest in ${product.name}. Visit our storefront or call us to place an order!`
+      `Thank you for your interest in ${product.name}. Visit our storefront or call us to place an order!`,
     );
   }
 
@@ -130,5 +130,9 @@ export class StonecrusatielierComponent implements OnInit {
 
   navigateToBakeYourCake() {
     this.router.navigate(['stonecrust_atelier/bake-your-cake']);
+  }
+
+  navigateToGoodDeeds() {
+    this.router.navigate(['stonecrust_atelier/good-deeds/submit']);
   }
 }

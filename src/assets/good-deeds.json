@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Asha Patel",
+    "email": "asha.patel@gmail.com",
+    "story": "I helped organize a community clean-up at the park and we collected over 50kg of trash. It felt great to see neighbors working together.",
+    "ratingCount": 12,
+    "isPreviousWeekWinner": true,
+    "createdDate": "2026-05-30T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Miguel Santos",
+    "email": "miguel.santos@outlook.com",
+    "story": "I baked bread for an elderly neighbor every weekend for a month.",
+    "ratingCount": 9,
+    "isPreviousWeekWinner": true,
+    "createdDate": "2026-05-31T12:30:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Li Wei",
+    "email": "li.wei@example.com",
+    "story": "I volunteered at the school library to help kids with reading.",
+    "ratingCount": 15,
+    "isPreviousWeekWinner": true,
+    "createdDate": "2026-05-29T09:15:00Z"
+  },
+  {
+    "id": 4,
+    "name": "John Doe",
+    "email": "john.doe@gmail.com",
+    "story": "I helped a friend move into a new apartment on short notice.",
+    "ratingCount": 3,
+    "isPreviousWeekWinner": false,
+    "createdDate": "2026-06-01T14:00:00Z"
+  }
+]
