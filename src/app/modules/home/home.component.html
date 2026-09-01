@@ -45,16 +45,13 @@
         <div class="hero-visual">
           <div class="logo-container">
             <img
-              src="assets/images/master_logo.jpg"
+              src="assets/images/jo_fra_del_master_logo.png"
               alt="JO.FRA.DEL. Master Logo"
               class="master-logo"
               data-aos="zoom-in"
             />
           </div>
-          <div class="floating-accent card-1">◆</div>
-          <div class="floating-accent card-2">★</div>
-          <div class="floating-accent card-3">✦</div>
-          <div class="glow-circle"></div>
+
         </div>
       </div>
     </div>
@@ -81,9 +78,15 @@
         <div class="venture-card" (click)="selectVenture(venture)">
           <div class="card-inner">
             <!-- Front of card -->
-            <div class="card-front">
-              <div class="card-icon">{{ venture.icon }}</div>
-              <h3 class="card-title">{{ venture.shortName }}</h3>
+            <div class="card-front" [class.card-front--image]="venture.image">
+              <ng-container *ngIf="venture.image; else iconCard">
+                <img [src]="venture.image" [alt]="venture.shortName" class="venture-logo-full" />
+                <h3 class="card-title card-title--overlay">{{ venture.shortName }}</h3>
+              </ng-container>
+              <ng-template #iconCard>
+                <div class="card-icon">{{ venture.icon }}</div>
+                <h3 class="card-title">{{ venture.shortName }}</h3>
+              </ng-template>
             </div>
 
             <!-- Back of card -->

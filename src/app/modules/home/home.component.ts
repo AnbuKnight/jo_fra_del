@@ -7,6 +7,7 @@ interface Venture {
   shortName: string;
   description: string;
   icon: string;
+  image?: string;
   route: string;
   color: string;
   status?: string;
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       description:
         'Artisan baking and culinary creations with premium quality and tradition.',
       icon: '🍰',
+      image: 'assets/images/stone_crust_atelier_logo_2.png',
       route: 'stonecrust_atelier',
       color: '#e67e22',
     },

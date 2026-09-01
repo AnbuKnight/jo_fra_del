@@ -36,6 +36,13 @@
   .logo-icon {
     font-size: 1.8rem;
     animation: float 3s ease-in-out infinite;
+
+    .navbar-mini-logo {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      vertical-align: middle;
+    }
   }
 }
 
